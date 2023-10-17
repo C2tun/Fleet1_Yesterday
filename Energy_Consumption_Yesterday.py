@@ -140,7 +140,7 @@ target_time_zone = pytz.timezone('Asia/Bangkok')
 print("HI")
 
 
-def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,worksheet,sheet2,column,soop,sheet200,ferry_ided):
+def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,workbook,ferry_ided,sheetProcess):
     date_str = str(desired_time1)
     date = date_str.replace("22:00:00+07:00", "")
     if app < 26:
@@ -181,10 +181,10 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                 converted_times = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
                 field = record.get_field()
                 values = record.get_value()
-                cell = sheet2.cell(row=row_number, column=column, value=values)
+                # cell = sheet2.cell(row=row_number, column=column, value=values)
                 value_C.append(values)
-                if app == 25:
-                    cell = sheet2.cell(row=row_number, column=1, value=converted_times)
+                # if app == 25:
+                    # cell = sheet2.cell(row=row_number, column=1, value=converted_times)
                 row_number += 1
         
         # Insert the result into the Text widget with row numbers
@@ -256,11 +256,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                 ino += 1
             rows = 2
             for value in result_values1:
-                cell = sheet2.cell(row=rows, column = 3, value = value)
+                # cell = sheet2.cell(row=rows, column = 3, value = value)
                 rows += 1
             rows = 2
             for value in result_values2:
-                cell = sheet2.cell(row=rows, column = 2, value = value)
+                # cell = sheet2.cell(row=rows, column = 2, value = value)
                 rows += 1
         else:
     
@@ -302,10 +302,10 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                 time_difference[i] = 0
         if app == 25:
             rowp = 2
-            cell = sheet2.cell(row=1, column=column+1, value="TimeDiff")    
+            # cell = sheet2.cell(row=1, column=column+1, value="TimeDiff")    
             for a in time_differences:
 
-                cell = sheet2.cell(row=rowp, column=column+1, value=a)       
+                # cell = sheet2.cell(row=rowp, column=column+1, value=a)       
                 rowp += 1
         Energy = []
         # print(len(timestamps))
@@ -356,15 +356,21 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
         total_C.append(Energy_Char)
         date = str(date)
         modified_string = date.replace("-", "/")
-
-        cell = sheet.cell(row=the_loop, column=5, value=app + 1)
-        cell = sheet.cell(row=the_loop, column=5, value=app + 1)
-        cell = sheet.cell(row=the_loop, column=1, value= modified_string)
-        cell = sheet.cell(row=the_loop, column=4, value=ferry_ided)
-        cell = sheet200.cell(row=the_loop, column=5, value=app + 1)
-        cell = sheet200.cell(row=the_loop, column=5, value=app + 1)
-        cell = sheet200.cell(row=the_loop, column=1, value= modified_string)
-        cell = sheet200.cell(row=the_loop, column=4, value=ferry_ided)
+        cell = sheetProcess.cell(row=the_loop, column=5, value= app+1)
+        cell = sheetProcess.cell(row=the_loop, column=1, value= modified_string)
+        cell = sheetProcess.cell(row=the_loop, column=4, value=ferry_ided)
+        cell = sheetProcess.cell(row=the_loop, column=6, value= Energy_Char )
+        cell = sheetProcess.cell(row=the_loop, column=7, value=Energy_Dhar)
+        cell = sheetProcess.cell(row=the_loop, column=2, value= "5:00:00")
+        cell = sheetProcess.cell(row=the_loop, column=3, value="22:00:00")  
+        # cell = sheet.cell(row=the_loop, column=5, value=app + 1)
+        # cell = sheet.cell(row=the_loop, column=5, value=app + 1)
+        # cell = sheet.cell(row=the_loop, column=1, value= modified_string)
+        # cell = sheet.cell(row=the_loop, column=4, value=ferry_ided)
+        # cell = sheet200.cell(row=the_loop, column=5, value=app + 1)
+        # cell = sheet200.cell(row=the_loop, column=5, value=app + 1)
+        # cell = sheet200.cell(row=the_loop, column=1, value= modified_string)
+        # cell = sheet200.cell(row=the_loop, column=4, value=ferry_ided)
 
         Data_Set = {
                     'Timestamps': timestamps,
@@ -394,7 +400,7 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
             'Group':[],
             'Time_Diff':[]
         }
-        sheet_Pack = workbook.create_sheet(title= f"Pack+{app+1}")
+        # sheet_Pack = workbook.create_sheet(title= f"Pack+{app+1}")
         start_time2 = time.time()
         for loc, Currents in enumerate(Data_Set['Sys_C']):
             
@@ -497,19 +503,19 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                     Goop = 0
 
             
-            times = Discharge_Set['Timestamps'][loc]
-            C_Vo = Discharge_Set['Voltage'][loc]
-            C_c = Discharge_Set['Current'][loc]
-            Ma_V = Discharge_Set['Max_V'][loc]
-            Mi_V = Discharge_Set['Min_V'][loc]
-            ditt = Discharge_Set['Diff'][loc]
-            cell = sheet_Pack.cell(row=loc+1, column=1, value=times)
-            cell = sheet_Pack.cell(row=loc+1, column=2, value=C_Vo)
-            cell = sheet_Pack.cell(row=loc+1, column=3, value=C_c)
-            cell = sheet_Pack.cell(row=loc+1, column=4, value=Mi_V)
-            cell = sheet_Pack.cell(row=loc+1, column=5, value=Ma_V)
-            cell = sheet_Pack.cell(row=loc+1, column=6, value=ditt)
-            cell = sheet_Pack.cell(row=loc+1, column=7, value=Goop)
+            # times = Discharge_Set['Timestamps'][loc]
+            # C_Vo = Discharge_Set['Voltage'][loc]
+            # C_c = Discharge_Set['Current'][loc]
+            # Ma_V = Discharge_Set['Max_V'][loc]
+            # Mi_V = Discharge_Set['Min_V'][loc]
+            # ditt = Discharge_Set['Diff'][loc]
+            # cell = sheet_Pack.cell(row=loc+1, column=1, value=times)
+            # cell = sheet_Pack.cell(row=loc+1, column=2, value=C_Vo)
+            # cell = sheet_Pack.cell(row=loc+1, column=3, value=C_c)
+            # cell = sheet_Pack.cell(row=loc+1, column=4, value=Mi_V)
+            # cell = sheet_Pack.cell(row=loc+1, column=5, value=Ma_V)
+            # cell = sheet_Pack.cell(row=loc+1, column=6, value=ditt)
+            # cell = sheet_Pack.cell(row=loc+1, column=7, value=Goop)
             Discharge_Set['Group'].append(Goop)
         
         for loc,Diff in enumerate(Charge_Set['Diff']):
@@ -528,19 +534,19 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                     Goop = 0
 
             
-            times = Charge_Set['Timestamps'][loc]
-            C_Vo = Charge_Set['Voltage'][loc]
-            C_c = Charge_Set['Current'][loc]
-            Ma_V = Charge_Set['Max_V'][loc]
-            Mi_V = Charge_Set['Min_V'][loc]
-            ditt = Charge_Set['Diff'][loc]
-            cell = sheet_Pack.cell(row=loc+1, column=9, value=times)
-            cell = sheet_Pack.cell(row=loc+1, column=10, value=C_Vo)
-            cell = sheet_Pack.cell(row=loc+1, column=11, value=C_c)
-            cell = sheet_Pack.cell(row=loc+1, column=12, value=Mi_V)
-            cell = sheet_Pack.cell(row=loc+1, column=13, value=Ma_V)
-            cell = sheet_Pack.cell(row=loc+1, column=14, value=ditt)
-            cell = sheet_Pack.cell(row=loc+1, column=15, value=Goop)
+            # times = Charge_Set['Timestamps'][loc]
+            # C_Vo = Charge_Set['Voltage'][loc]
+            # C_c = Charge_Set['Current'][loc]
+            # Ma_V = Charge_Set['Max_V'][loc]
+            # Mi_V = Charge_Set['Min_V'][loc]
+            # ditt = Charge_Set['Diff'][loc]
+            # cell = sheet_Pack.cell(row=loc+1, column=9, value=times)
+            # cell = sheet_Pack.cell(row=loc+1, column=10, value=C_Vo)
+            # cell = sheet_Pack.cell(row=loc+1, column=11, value=C_c)
+            # cell = sheet_Pack.cell(row=loc+1, column=12, value=Mi_V)
+            # cell = sheet_Pack.cell(row=loc+1, column=13, value=Ma_V)
+            # cell = sheet_Pack.cell(row=loc+1, column=14, value=ditt)
+            # cell = sheet_Pack.cell(row=loc+1, column=15, value=Goop)
             Charge_Set['Group'].append(Goop)
 
             
@@ -835,16 +841,16 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                     SOH_Goop['SOH'].append(Cal_Capacity)
                     SOH_Goop['Cal_E'].append(SOh_E)
                     
-                    for index, header in enumerate(headers1, start=shitty):
-                        cell = sheet8.cell(row=4, column=index, value=header)
+                    # for index, header in enumerate(headers1, start=shitty):
+                    #     cell = sheet8.cell(row=4, column=index, value=header)
 
-                    cell = sheet8.cell(row=the_loop, column=shitty, value=first_min_v)
-                    cell = sheet8.cell(row=the_loop, column=shitty+1, value=last_max_v)
-                    cell = sheet8.cell(row=the_loop, column=shitty+2, value=SOC_Start)
-                    cell = sheet8.cell(row=the_loop, column=shitty+3, value=SOC_End)
-                    cell = sheet8.cell(row=the_loop, column=shitty+4, value=Cal_Capacity)
-                    cell = sheet8.cell(row=the_loop, column=shitty+5, value=Remaining_Capacity)    
-                    cell = sheet8.cell(row=the_loop, column=shitty+6, value=SOh_E)  
+                    # cell = sheet8.cell(row=the_loop, column=shitty, value=first_min_v)
+                    # cell = sheet8.cell(row=the_loop, column=shitty+1, value=last_max_v)
+                    # cell = sheet8.cell(row=the_loop, column=shitty+2, value=SOC_Start)
+                    # cell = sheet8.cell(row=the_loop, column=shitty+3, value=SOC_End)
+                    # cell = sheet8.cell(row=the_loop, column=shitty+4, value=Cal_Capacity)
+                    # cell = sheet8.cell(row=the_loop, column=shitty+5, value=Remaining_Capacity)    
+                    # cell = sheet8.cell(row=the_loop, column=shitty+6, value=SOh_E)  
                     shitty += 7
                 if first_min_v == None and last_max_v == None:
                     lost_data.append(app+1)
@@ -1128,15 +1134,15 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                 SOH_Goop_Min['SOH'].append(Cal_Capacity)
                 SOH_Goop_Min['Cal_E'].append(SOh_E)
                 
-                for index, header in enumerate(headers2, start=shitty):
-                    cell = sheet8.cell(row=4+31, column=index, value=header)
-                cell = sheet8.cell(row=the_loop +31, column=shitty, value=first_min_v)
-                cell = sheet8.cell(row=the_loop +31, column=shitty+1, value=last_max_v)
-                cell = sheet8.cell(row=the_loop +31, column=shitty+2, value=SOC_Start)
-                cell = sheet8.cell(row=the_loop +31, column=shitty+3, value=SOC_End)
-                cell = sheet8.cell(row=the_loop +31, column=shitty+4, value=Cal_Capacity)
-                cell = sheet8.cell(row=the_loop +31, column=shitty+5, value=Remaining_Capacity)    
-                cell = sheet8.cell(row=the_loop +31, column=shitty+6, value=SOh_E)  
+                # for index, header in enumerate(headers2, start=shitty):
+                #     cell = sheet8.cell(row=4+31, column=index, value=header)
+                # cell = sheet8.cell(row=the_loop +31, column=shitty, value=first_min_v)
+                # cell = sheet8.cell(row=the_loop +31, column=shitty+1, value=last_max_v)
+                # cell = sheet8.cell(row=the_loop +31, column=shitty+2, value=SOC_Start)
+                # cell = sheet8.cell(row=the_loop +31, column=shitty+3, value=SOC_End)
+                # cell = sheet8.cell(row=the_loop +31, column=shitty+4, value=Cal_Capacity)
+                # cell = sheet8.cell(row=the_loop +31, column=shitty+5, value=Remaining_Capacity)    
+                # cell = sheet8.cell(row=the_loop +31, column=shitty+6, value=SOh_E)  
                 shitty += 7
             if first_min_v == None and last_max_v == None:
                 lost_data2.append(app+1)
@@ -1418,16 +1424,16 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                         SOH_Goop['SOH'].append(Cal_Capacity)
                         SOH_Goop['Cal_E'].append(SOh_E)
                         
-                        for index, header in enumerate(headers1, start=shitty):
-                            cell = sheet8.cell(row=4, column=index, value=header)
+                        # for index, header in enumerate(headers1, start=shitty):
+                        #     cell = sheet8.cell(row=4, column=index, value=header)
 
-                        cell = sheet8.cell(row=the_loop, column=shitty, value=first_min_v)
-                        cell = sheet8.cell(row=the_loop, column=shitty+1, value=last_max_v)
-                        cell = sheet8.cell(row=the_loop, column=shitty+2, value=SOC_Start)
-                        cell = sheet8.cell(row=the_loop, column=shitty+3, value=SOC_End)
-                        cell = sheet8.cell(row=the_loop, column=shitty+4, value=Cal_Capacity)
-                        cell = sheet8.cell(row=the_loop, column=shitty+5, value=Remaining_Capacity)    
-                        cell = sheet8.cell(row=the_loop, column=shitty+6, value=SOh_E)  
+                        # cell = sheet8.cell(row=the_loop, column=shitty, value=first_min_v)
+                        # cell = sheet8.cell(row=the_loop, column=shitty+1, value=last_max_v)
+                        # cell = sheet8.cell(row=the_loop, column=shitty+2, value=SOC_Start)
+                        # cell = sheet8.cell(row=the_loop, column=shitty+3, value=SOC_End)
+                        # cell = sheet8.cell(row=the_loop, column=shitty+4, value=Cal_Capacity)
+                        # cell = sheet8.cell(row=the_loop, column=shitty+5, value=Remaining_Capacity)    
+                        # cell = sheet8.cell(row=the_loop, column=shitty+6, value=SOh_E)  
                         shitty += 7
                     if first_min_v == None and last_max_v == None:
                         lost_data.append(app+1)
@@ -1713,15 +1719,15 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
                     SOH_Goop_Min['SOH'].append(Cal_Capacity)
                     SOH_Goop_Min['Cal_E'].append(SOh_E)
                     
-                    for index, header in enumerate(headers2, start=shitty):
-                        cell = sheet8.cell(row=4+31, column=index, value=header)
-                    cell = sheet8.cell(row=the_loop +31, column=shitty, value=first_min_v)
-                    cell = sheet8.cell(row=the_loop +31, column=shitty+1, value=last_max_v)
-                    cell = sheet8.cell(row=the_loop +31, column=shitty+2, value=SOC_Start)
-                    cell = sheet8.cell(row=the_loop +31, column=shitty+3, value=SOC_End)
-                    cell = sheet8.cell(row=the_loop +31, column=shitty+4, value=Cal_Capacity)
-                    cell = sheet8.cell(row=the_loop +31, column=shitty+5, value=Remaining_Capacity)    
-                    cell = sheet8.cell(row=the_loop +31, column=shitty+6, value=SOh_E)  
+                    # for index, header in enumerate(headers2, start=shitty):
+                    #     cell = sheet8.cell(row=4+31, column=index, value=header)
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty, value=first_min_v)
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty+1, value=last_max_v)
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty+2, value=SOC_Start)
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty+3, value=SOC_End)
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty+4, value=Cal_Capacity)
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty+5, value=Remaining_Capacity)    
+                    # cell = sheet8.cell(row=the_loop +31, column=shitty+6, value=SOh_E)  
                     shitty += 7
                 if first_min_v == None and last_max_v == None:
                     lost_data2.append(app+1)
@@ -1736,7 +1742,7 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
         # Set the base filename
         date = str(date)
         modified_string = date.replace("-", "")
-        base_filename = f'{modified_string}_MSF{ferry_ided}_SOH(Debugg).xlsx'
+        base_filename = f'{modified_string}_MSF{ferry_ided}_Energy.xlsx'
         counter = 0
         for dex,group in enumerate(SOH_Goop['Goop']):
             if SOH_Goop['Charge'][dex] < 3 :
@@ -1780,93 +1786,93 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
         print(f"Minimum SOH: {min_soh} (Group {min_soh_group})")
         # Print the minimum 'SOH' value and its corresponding group
         print(f"Minimum SOH: {min_soh} (Group {min_soh_group})")
-        lick = 5
-        hick = 1
-        for dex,group in enumerate(SOH_Goop['Goop']):
-            print(min_soh_group)
-            print(group)
-            lgg = 0
-            if group == min_soh_group:
-                for i,value in enumerate(lost_data): #2
+    #     lick = 5
+    #     hick = 1
+    #     for dex,group in enumerate(SOH_Goop['Goop']):
+    #         print(min_soh_group)
+    #         print(group)
+    #         lgg = 0
+    #         if group == min_soh_group:
+    #             for i,value in enumerate(lost_data): #2
                     
-                    print(f"This is hick{hick}")
-                    print(f"This is Value{value}")
+    #                 print(f"This is hick{hick}")
+    #                 print(f"This is Value{value}")
 
-                    if hick != value and lgg == 0 :
-                        cell = sheet.cell(row=lick, column=2, value=SOH_Goop['S_Time'][dex])
-                        cell = sheet.cell(row=lick, column=3, value=SOH_Goop['E_Time'][dex])
-                        cell = sheet.cell(row=lick, column=9, value=SOH_Goop['Max_V'][dex])
-                        cell = sheet.cell(row=lick, column=8, value=SOH_Goop['Min_V'][dex])
-                        cell = sheet.cell(row=lick, column=10, value=SOH_Goop['Start_SOC'][dex])
-                        cell = sheet.cell(row=lick, column=11, value=SOH_Goop['End_SOC'][dex])
-                        cell = sheet.cell(row=lick, column=6, value=SOH_Goop['Charge'][dex])
-                        cell = sheet.cell(row=lick, column=7, value=0)
-                        if SOH_Goop['Charge'][dex] < 3 :
-                            cell = sheet.cell(row=lick, column=13, value=0)
-                            cell = sheet.cell(row=lick, column=12, value=0)   
-                        else:
-                            cell = sheet.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
-                            cell = sheet.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
-                        lick += 1
-                        hick += 1
-                        lgg += 1
-                        if hick == value :
-                            print(f"I am Nyi Nyi DEX {dex}")
-                            print("I am Nyi Nyi")
-                            break
-                    elif hick == value: 
-                        cell = sheet.cell(row=lick, column=2, value=SOH_Goop['S_Time'][dex])
-                        cell = sheet.cell(row=lick, column=3, value=SOH_Goop['E_Time'][dex])
-                        cell = sheet.cell(row=lick, column=9, value=0)
-                        cell = sheet.cell(row=lick, column=8, value=0)
-                        cell = sheet.cell(row=lick, column=10, value=0)
-                        cell = sheet.cell(row=lick, column=11, value=0)
-                        cell = sheet.cell(row=lick, column=13, value=0)
-                        cell = sheet.cell(row=lick, column=12, value=0)
-                        cell = sheet.cell(row=lick, column=7, value=0)
-                        cell = sheet.cell(row=lick, column=6, value=0)
-                        cell = sheet.cell(row=lick+1, column=9, value=SOH_Goop['Max_V'][dex])
-                        cell = sheet.cell(row=lick+1, column=8, value=SOH_Goop['Min_V'][dex])
-                        cell = sheet.cell(row=lick+1, column=10, value=SOH_Goop['Start_SOC'][dex])
-                        cell = sheet.cell(row=lick+1, column=11, value=SOH_Goop['End_SOC'][dex])
-                        cell = sheet.cell(row=lick+1, column=2, value=SOH_Goop['S_Time'][dex])
-                        cell = sheet.cell(row=lick+1, column=3, value=SOH_Goop['E_Time'][dex])
-                        cell = sheet.cell(row=lick+1, column=6, value=SOH_Goop['Charge'][dex])
-                        cell = sheet.cell(row=lick+1, column=7, value=0)
-                        if SOH_Goop['Charge'][dex] < 3 :
-                            cell = sheet.cell(row=lick+1, column=13, value=0)
-                            cell = sheet.cell(row=lick+1, column=12, value=0)   
-                        else:
-                            cell = sheet.cell(row=lick+1, column=13, value=SOH_Goop['Cal'][dex])
-                            cell = sheet.cell(row=lick+1, column=12, value=SOH_Goop['SOH'][dex]) 
-                        if len(lost_data) > 2:
-                            hick += len(lost_data) - 1
-                        else:
-                            hick += 1
+    #                 if hick != value and lgg == 0 :
+    #                     cell = sheet.cell(row=lick, column=2, value=SOH_Goop['S_Time'][dex])
+    #                     cell = sheet.cell(row=lick, column=3, value=SOH_Goop['E_Time'][dex])
+    #                     cell = sheet.cell(row=lick, column=9, value=SOH_Goop['Max_V'][dex])
+    #                     cell = sheet.cell(row=lick, column=8, value=SOH_Goop['Min_V'][dex])
+    #                     cell = sheet.cell(row=lick, column=10, value=SOH_Goop['Start_SOC'][dex])
+    #                     cell = sheet.cell(row=lick, column=11, value=SOH_Goop['End_SOC'][dex])
+    #                     cell = sheet.cell(row=lick, column=6, value=SOH_Goop['Charge'][dex])
+    #                     cell = sheet.cell(row=lick, column=7, value=0)
+    #                     if SOH_Goop['Charge'][dex] < 3 :
+    #                         cell = sheet.cell(row=lick, column=13, value=0)
+    #                         cell = sheet.cell(row=lick, column=12, value=0)   
+    #                     else:
+    #                         cell = sheet.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
+    #                         cell = sheet.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
+    #                     lick += 1
+    #                     hick += 1
+    #                     lgg += 1
+    #                     if hick == value :
+    #                         print(f"I am Nyi Nyi DEX {dex}")
+    #                         print("I am Nyi Nyi")
+    #                         break
+    #                 elif hick == value: 
+    #                     cell = sheet.cell(row=lick, column=2, value=SOH_Goop['S_Time'][dex])
+    #                     cell = sheet.cell(row=lick, column=3, value=SOH_Goop['E_Time'][dex])
+    #                     cell = sheet.cell(row=lick, column=9, value=0)
+    #                     cell = sheet.cell(row=lick, column=8, value=0)
+    #                     cell = sheet.cell(row=lick, column=10, value=0)
+    #                     cell = sheet.cell(row=lick, column=11, value=0)
+    #                     cell = sheet.cell(row=lick, column=13, value=0)
+    #                     cell = sheet.cell(row=lick, column=12, value=0)
+    #                     cell = sheet.cell(row=lick, column=7, value=0)
+    #                     cell = sheet.cell(row=lick, column=6, value=0)
+    #                     cell = sheet.cell(row=lick+1, column=9, value=SOH_Goop['Max_V'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=8, value=SOH_Goop['Min_V'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=10, value=SOH_Goop['Start_SOC'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=11, value=SOH_Goop['End_SOC'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=2, value=SOH_Goop['S_Time'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=3, value=SOH_Goop['E_Time'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=6, value=SOH_Goop['Charge'][dex])
+    #                     cell = sheet.cell(row=lick+1, column=7, value=0)
+    #                     if SOH_Goop['Charge'][dex] < 3 :
+    #                         cell = sheet.cell(row=lick+1, column=13, value=0)
+    #                         cell = sheet.cell(row=lick+1, column=12, value=0)   
+    #                     else:
+    #                         cell = sheet.cell(row=lick+1, column=13, value=SOH_Goop['Cal'][dex])
+    #                         cell = sheet.cell(row=lick+1, column=12, value=SOH_Goop['SOH'][dex]) 
+    #                     if len(lost_data) > 2:
+    #                         hick += len(lost_data) - 1
+    #                     else:
+    #                         hick += 1
 
-                        lick += 2
-                        if len(lost_data) > 1:
-                            lost_data.pop(0)
-                        break
-                if not lost_data   :
-                        cell = sheet.cell(row=lick, column=2, value=SOH_Goop['S_Time'][dex])
-                        cell = sheet.cell(row=lick, column=3, value=SOH_Goop['E_Time'][dex])
-                        cell = sheet.cell(row=lick, column=9, value=SOH_Goop['Max_V'][dex])
-                        cell = sheet.cell(row=lick, column=8, value=SOH_Goop['Min_V'][dex])
-                        cell = sheet.cell(row=lick, column=10, value=SOH_Goop['Start_SOC'][dex])
-                        cell = sheet.cell(row=lick, column=11, value=SOH_Goop['End_SOC'][dex])
-                        cell = sheet.cell(row=lick, column=6, value=SOH_Goop['Charge'][dex])
-                        cell = sheet.cell(row=lick, column=7, value=0)
-                        if SOH_Goop['Charge'][dex] < 3 :
-                            cell = sheet.cell(row=lick, column=13, value=0)
-                            cell = sheet.cell(row=lick, column=12, value=0)   
-                        else:
-                            cell = sheet.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
-                            cell = sheet.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
-                        lick += 1
-        for dex,group in enumerate(SOH_Goop_Min['Goop']):
-            if SOH_Goop_Min['Discharge'][dex] > -3 :
-                SOH_Goop_Min['SOH'][dex] = 9999
+    #                     lick += 2
+    #                     if len(lost_data) > 1:
+    #                         lost_data.pop(0)
+    #                     break
+    #             if not lost_data   :
+    #                     cell = sheet.cell(row=lick, column=2, value=SOH_Goop['S_Time'][dex])
+    #                     cell = sheet.cell(row=lick, column=3, value=SOH_Goop['E_Time'][dex])
+    #                     cell = sheet.cell(row=lick, column=9, value=SOH_Goop['Max_V'][dex])
+    #                     cell = sheet.cell(row=lick, column=8, value=SOH_Goop['Min_V'][dex])
+    #                     cell = sheet.cell(row=lick, column=10, value=SOH_Goop['Start_SOC'][dex])
+    #                     cell = sheet.cell(row=lick, column=11, value=SOH_Goop['End_SOC'][dex])
+    #                     cell = sheet.cell(row=lick, column=6, value=SOH_Goop['Charge'][dex])
+    #                     cell = sheet.cell(row=lick, column=7, value=0)
+    #                     if SOH_Goop['Charge'][dex] < 3 :
+    #                         cell = sheet.cell(row=lick, column=13, value=0)
+    #                         cell = sheet.cell(row=lick, column=12, value=0)   
+    #                     else:
+    #                         cell = sheet.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
+    #                         cell = sheet.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
+    #                     lick += 1
+    #     for dex,group in enumerate(SOH_Goop_Min['Goop']):
+    #         if SOH_Goop_Min['Discharge'][dex] > -3 :
+    #             SOH_Goop_Min['SOH'][dex] = 9999
                 
         
 
@@ -1909,90 +1915,90 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,workbook,wor
         print(f"Minimum SOH: {min_soh2} (Group {min_soh_group2})")
         # Print the minimum 'SOH' value and its corresponding group
         print(f"Minimum SOH: {min_soh2} (Group {min_soh_group2})")
-        lick = 5
-        hick = 1
-        for dex,group in enumerate(SOH_Goop_Min['Goop']):
-            print(min_soh_group2)
-            print(group)
-            lgg = 0
-            if group == min_soh_group2:
-                for i,value in enumerate(lost_data2): #2
+    #     lick = 5
+    #     hick = 1
+    #     for dex,group in enumerate(SOH_Goop_Min['Goop']):
+    #         print(min_soh_group2)
+    #         print(group)
+    #         lgg = 0
+    #         if group == min_soh_group2:
+    #             for i,value in enumerate(lost_data2): #2
                     
-                    print(f"This is hick{hick}")
-                    print(f"This is Value{value}")
+    #                 print(f"This is hick{hick}")
+    #                 print(f"This is Value{value}")
 
-                    if hick != value and lgg == 0 :
-                        cell = sheet200.cell(row=lick, column=2, value=SOH_Goop_Min['S_Time'][dex])
-                        cell = sheet200.cell(row=lick, column=3, value=SOH_Goop_Min['E_Time'][dex])
-                        cell = sheet200.cell(row=lick, column=9, value=SOH_Goop_Min['Max_V'][dex])
-                        cell = sheet200.cell(row=lick, column=8, value=SOH_Goop_Min['Min_V'][dex])
-                        cell = sheet200.cell(row=lick, column=10, value=SOH_Goop_Min['Start_SOC'][dex])
-                        cell = sheet200.cell(row=lick, column=11, value=SOH_Goop_Min['End_SOC'][dex])
-                        cell = sheet200.cell(row=lick, column=7, value=SOH_Goop_Min['Discharge'][dex])
-                        cell = sheet200.cell(row=lick, column=6, value=0)
-                        if SOH_Goop_Min['Discharge'][dex] > -3 :
-                            cell = sheet200.cell(row=lick, column=13, value=0)
-                            cell = sheet200.cell(row=lick, column=12, value=0)   
-                        else:
-                            cell = sheet200.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
-                            cell = sheet200.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
-                        lick += 1
-                        hick += 1
-                        lgg += 1
-                        if hick == value :
-                            print(f"I am Nyi Nyi DEX {dex}")
-                            print("I am Nyi Nyi")
-                            break
-                    elif hick == value: 
-                        cell = sheet200.cell(row=lick, column=2, value=SOH_Goop_Min['S_Time'][dex])
-                        cell = sheet200.cell(row=lick, column=3, value=SOH_Goop_Min['E_Time'][dex])
-                        cell = sheet200.cell(row=lick, column=9, value=0)
-                        cell = sheet200.cell(row=lick, column=8, value=0)
-                        cell = sheet200.cell(row=lick, column=10, value=0)
-                        cell = sheet200.cell(row=lick, column=11, value=0)
-                        cell = sheet200.cell(row=lick, column=13, value=0)
-                        cell = sheet200.cell(row=lick, column=12, value=0)
-                        cell = sheet200.cell(row=lick, column=6, value=0)
-                        cell = sheet200.cell(row=lick, column=7, value=0)
-                        cell = sheet200.cell(row=lick+1, column=9, value=SOH_Goop_Min['Max_V'][dex])
-                        cell = sheet200.cell(row=lick+1, column=8, value=SOH_Goop_Min['Min_V'][dex])
-                        cell = sheet200.cell(row=lick+1, column=10, value=SOH_Goop_Min['Start_SOC'][dex])
-                        cell = sheet200.cell(row=lick+1, column=11, value=SOH_Goop_Min['End_SOC'][dex])
-                        cell = sheet200.cell(row=lick+1, column=2, value=SOH_Goop_Min['S_Time'][dex])
-                        cell = sheet200.cell(row=lick+1, column=3, value=SOH_Goop_Min['E_Time'][dex])
-                        cell = sheet200.cell(row=lick+1, column=7, value=SOH_Goop_Min['Discharge'][dex])
-                        cell = sheet200.cell(row=lick+1, column=6, value=0)
-                        if SOH_Goop_Min['Discharge'][dex] > -3 :
-                            cell = sheet200.cell(row=lick+1, column=13, value=0)
-                            cell = sheet200.cell(row=lick+1, column=12, value=0)   
-                        else:
-                            cell = sheet200.cell(row=lick+1, column=13, value=SOH_Goop_Min['Cal'][dex])
-                            cell = sheet200.cell(row=lick+1, column=12, value=SOH_Goop_Min['SOH'][dex]) 
-                        if len(lost_data2) > 2:
-                            hick += len(lost_data2) - 1
-                        else:
-                            hick += 1
+    #                 if hick != value and lgg == 0 :
+    #                     cell = sheet200.cell(row=lick, column=2, value=SOH_Goop_Min['S_Time'][dex])
+    #                     cell = sheet200.cell(row=lick, column=3, value=SOH_Goop_Min['E_Time'][dex])
+    #                     cell = sheet200.cell(row=lick, column=9, value=SOH_Goop_Min['Max_V'][dex])
+    #                     cell = sheet200.cell(row=lick, column=8, value=SOH_Goop_Min['Min_V'][dex])
+    #                     cell = sheet200.cell(row=lick, column=10, value=SOH_Goop_Min['Start_SOC'][dex])
+    #                     cell = sheet200.cell(row=lick, column=11, value=SOH_Goop_Min['End_SOC'][dex])
+    #                     cell = sheet200.cell(row=lick, column=7, value=SOH_Goop_Min['Discharge'][dex])
+    #                     cell = sheet200.cell(row=lick, column=6, value=0)
+    #                     if SOH_Goop_Min['Discharge'][dex] > -3 :
+    #                         cell = sheet200.cell(row=lick, column=13, value=0)
+    #                         cell = sheet200.cell(row=lick, column=12, value=0)   
+    #                     else:
+    #                         cell = sheet200.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
+    #                         cell = sheet200.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
+    #                     lick += 1
+    #                     hick += 1
+    #                     lgg += 1
+    #                     if hick == value :
+    #                         print(f"I am Nyi Nyi DEX {dex}")
+    #                         print("I am Nyi Nyi")
+    #                         break
+    #                 elif hick == value: 
+    #                     cell = sheet200.cell(row=lick, column=2, value=SOH_Goop_Min['S_Time'][dex])
+    #                     cell = sheet200.cell(row=lick, column=3, value=SOH_Goop_Min['E_Time'][dex])
+    #                     cell = sheet200.cell(row=lick, column=9, value=0)
+    #                     cell = sheet200.cell(row=lick, column=8, value=0)
+    #                     cell = sheet200.cell(row=lick, column=10, value=0)
+    #                     cell = sheet200.cell(row=lick, column=11, value=0)
+    #                     cell = sheet200.cell(row=lick, column=13, value=0)
+    #                     cell = sheet200.cell(row=lick, column=12, value=0)
+    #                     cell = sheet200.cell(row=lick, column=6, value=0)
+    #                     cell = sheet200.cell(row=lick, column=7, value=0)
+    #                     cell = sheet200.cell(row=lick+1, column=9, value=SOH_Goop_Min['Max_V'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=8, value=SOH_Goop_Min['Min_V'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=10, value=SOH_Goop_Min['Start_SOC'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=11, value=SOH_Goop_Min['End_SOC'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=2, value=SOH_Goop_Min['S_Time'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=3, value=SOH_Goop_Min['E_Time'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=7, value=SOH_Goop_Min['Discharge'][dex])
+    #                     cell = sheet200.cell(row=lick+1, column=6, value=0)
+    #                     if SOH_Goop_Min['Discharge'][dex] > -3 :
+    #                         cell = sheet200.cell(row=lick+1, column=13, value=0)
+    #                         cell = sheet200.cell(row=lick+1, column=12, value=0)   
+    #                     else:
+    #                         cell = sheet200.cell(row=lick+1, column=13, value=SOH_Goop_Min['Cal'][dex])
+    #                         cell = sheet200.cell(row=lick+1, column=12, value=SOH_Goop_Min['SOH'][dex]) 
+    #                     if len(lost_data2) > 2:
+    #                         hick += len(lost_data2) - 1
+    #                     else:
+    #                         hick += 1
 
-                        lick += 2
-                        if len(lost_data2) > 1:
-                            lost_data2.pop(0)
-                        break
-                if not lost_data2   :
-                        cell = sheet200.cell(row=lick, column=2, value=SOH_Goop_Min['S_Time'][dex])
-                        cell = sheet200.cell(row=lick, column=3, value=SOH_Goop_Min['E_Time'][dex])
-                        cell = sheet200.cell(row=lick, column=9, value=SOH_Goop_Min['Max_V'][dex])
-                        cell = sheet200.cell(row=lick, column=8, value=SOH_Goop_Min['Min_V'][dex])
-                        cell = sheet200.cell(row=lick, column=10, value=SOH_Goop_Min['Start_SOC'][dex])
-                        cell = sheet200.cell(row=lick, column=11, value=SOH_Goop_Min['End_SOC'][dex])
-                        cell = sheet200.cell(row=lick, column=7, value=SOH_Goop_Min['Discharge'][dex])
-                        cell = sheet200.cell(row=lick, column=6, value=0)
-                        if SOH_Goop_Min['Discharge'][dex] > -3 :
-                            cell = sheet200.cell(row=lick, column=13, value=0)
-                            cell = sheet200.cell(row=lick, column=12, value=0)   
-                        else:
-                            cell = sheet200.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
-                            cell = sheet200.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
-                        lick += 1
+    #                     lick += 2
+    #                     if len(lost_data2) > 1:
+    #                         lost_data2.pop(0)
+    #                     break
+    #             if not lost_data2   :
+    #                     cell = sheet200.cell(row=lick, column=2, value=SOH_Goop_Min['S_Time'][dex])
+    #                     cell = sheet200.cell(row=lick, column=3, value=SOH_Goop_Min['E_Time'][dex])
+    #                     cell = sheet200.cell(row=lick, column=9, value=SOH_Goop_Min['Max_V'][dex])
+    #                     cell = sheet200.cell(row=lick, column=8, value=SOH_Goop_Min['Min_V'][dex])
+    #                     cell = sheet200.cell(row=lick, column=10, value=SOH_Goop_Min['Start_SOC'][dex])
+    #                     cell = sheet200.cell(row=lick, column=11, value=SOH_Goop_Min['End_SOC'][dex])
+    #                     cell = sheet200.cell(row=lick, column=7, value=SOH_Goop_Min['Discharge'][dex])
+    #                     cell = sheet200.cell(row=lick, column=6, value=0)
+    #                     if SOH_Goop_Min['Discharge'][dex] > -3 :
+    #                         cell = sheet200.cell(row=lick, column=13, value=0)
+    #                         cell = sheet200.cell(row=lick, column=12, value=0)   
+    #                     else:
+    #                         cell = sheet200.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
+    #                         cell = sheet200.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
+    #                     lick += 1
         while os.path.exists(base_filename):
             counter += 1
             base_filename = f'{modified_string}_MSF{ferry_ided}_SOH(Debugg)_{counter}.xlsx'
@@ -2231,8 +2237,8 @@ def ProcessData(ferry_ided):
     date = date_str.replace("22:00:00+07:00", "")
 
     # Create a new Excel workbook and add a sheet
-    workbook = openpyxl.Workbook()
-    worksheet = workbook.active
+    # workbook = openpyxl.Workbook()
+    # worksheet = workbook.active
     global soop
     soop = 0
     global DataBP
@@ -2278,42 +2284,68 @@ def ProcessData(ferry_ided):
     print("Yee Haw")
     global sheet
     global j 
-    sheet = workbook.create_sheet(title=f'Charge {j}')
-    sheet200 = workbook.create_sheet(title=f'Discharge {j}')
-    
+    # sheet = workbook.create_sheet(title=f'Charge {j}')
+    # sheet200 = workbook.create_sheet(title=f'Discharge {j}')
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+
+    global sheetProcess
+    sheetProcess = workbook.create_sheet(title=f'Fleet2 Energy')
+
+    headers = [
+        "Date","Start Time","Stop Time","Ferry","Pack No.",
+        "Charged Energy (kWh)",
+        "Discharged Energy (kWh)"
+    ]
     for index, header in enumerate(headers, start=1):
-        cell = sheet.cell(row=4, column=index, value=header)
+            cell = sheetProcess.cell(row=4, column=index, value=header)
     Header = 'StartTime'
     Header2 = 'StopTime'
 	        # Set the base filename
 
-    cell = sheet.cell(row=1, column = 1, value = 'Ferry Number')
-    cell = sheet.cell(row=2, column = 1, value = 'Start-Time')
-    cell = sheet.cell(row=3, column = 1, value = 'Stop-Time')
-    cell = sheet.cell(row=2, column = 3, value = '<-GMT +7 ')
-    cell = sheet.cell(row=3, column = 3, value = '<-GMT +7 ')
-    cell = sheet.cell(row=2, column = 1, value = Header)
-    cell = sheet.cell(row=3, column = 1, value = Header2)
-    cell = sheet.cell(row=2, column=2, value=o_start_datetime)
-    cell = sheet.cell(row=3, column=2, value=o_end_datetime)
-    cell = sheet.cell(row=1, column=2, value= ferry_ided)
+    cell = sheetProcess.cell(row=1, column = 1, value = 'Ferry Number')
+    cell = sheetProcess.cell(row=2, column = 1, value = 'Start-Time')
+    cell = sheetProcess.cell(row=3, column = 1, value = 'Stop-Time')
+    cell = sheetProcess.cell(row=2, column = 3, value = '<-GMT +7 ')
+    cell = sheetProcess.cell(row=3, column = 3, value = '<-GMT +7 ')
+    cell = sheetProcess.cell(row=2, column = 1, value = Header)
+    cell = sheetProcess.cell(row=3, column = 1, value = Header2)
+    cell = sheetProcess.cell(row=2, column=2, value=o_start_datetime)
+    cell = sheetProcess.cell(row=3, column=2, value=o_end_datetime)
+    cell = sheetProcess.cell(row=1, column=2, value=ferry_ided)    
+    # for index, header in enumerate(headers, start=1):
+    #     cell = sheet.cell(row=4, column=index, value=header)
+    # Header = 'StartTime'
+    # Header2 = 'StopTime'
+	#         # Set the base filename
 
-    for index, header in enumerate(headers, start=1):
-        cell = sheet200.cell(row=4, column=index, value=header)
-    Header = 'StartTime'
-    Header2 = 'StopTime'
-	        # Set the base filename
+    # cell = sheet.cell(row=1, column = 1, value = 'Ferry Number')
+    # cell = sheet.cell(row=2, column = 1, value = 'Start-Time')
+    # cell = sheet.cell(row=3, column = 1, value = 'Stop-Time')
+    # cell = sheet.cell(row=2, column = 3, value = '<-GMT +7 ')
+    # cell = sheet.cell(row=3, column = 3, value = '<-GMT +7 ')
+    # cell = sheet.cell(row=2, column = 1, value = Header)
+    # cell = sheet.cell(row=3, column = 1, value = Header2)
+    # cell = sheet.cell(row=2, column=2, value=o_start_datetime)
+    # cell = sheet.cell(row=3, column=2, value=o_end_datetime)
+    # cell = sheet.cell(row=1, column=2, value= ferry_ided)
 
-    cell = sheet200.cell(row=1, column = 1, value = 'Ferry Number')
-    cell = sheet200.cell(row=2, column = 1, value = 'Start-Time')
-    cell = sheet200.cell(row=3, column = 1, value = 'Stop-Time')
-    cell = sheet200.cell(row=2, column = 3, value = '<-GMT +7 ')
-    cell = sheet200.cell(row=3, column = 3, value = '<-GMT +7 ')
-    cell = sheet200.cell(row=2, column = 1, value = Header)
-    cell = sheet200.cell(row=3, column = 1, value = Header2)
-    cell = sheet200.cell(row=2, column=2, value=o_start_datetime)
-    cell = sheet200.cell(row=3, column=2, value=o_end_datetime)
-    cell = sheet200.cell(row=1, column=2, value= ferry_ided)
+    # for index, header in enumerate(headers, start=1):
+    #     cell = sheet200.cell(row=4, column=index, value=header)
+    # Header = 'StartTime'
+    # Header2 = 'StopTime'
+	#         # Set the base filename
+
+    # cell = sheet200.cell(row=1, column = 1, value = 'Ferry Number')
+    # cell = sheet200.cell(row=2, column = 1, value = 'Start-Time')
+    # cell = sheet200.cell(row=3, column = 1, value = 'Stop-Time')
+    # cell = sheet200.cell(row=2, column = 3, value = '<-GMT +7 ')
+    # cell = sheet200.cell(row=3, column = 3, value = '<-GMT +7 ')
+    # cell = sheet200.cell(row=2, column = 1, value = Header)
+    # cell = sheet200.cell(row=3, column = 1, value = Header2)
+    # cell = sheet200.cell(row=2, column=2, value=o_start_datetime)
+    # cell = sheet200.cell(row=3, column=2, value=o_end_datetime)
+    # cell = sheet200.cell(row=1, column=2, value= ferry_ided)
 
     total_DC= []
     total_C = []
@@ -2405,19 +2437,19 @@ def ProcessData(ferry_ided):
         # Wait for both threads to finish
     threads1.join()
     threads2.join()
-    sheet2 = workbook.create_sheet(title=f'Volt & Current')
+    # sheet2 = workbook.create_sheet(title=f'Volt & Current')
 
     # Start row and column
-    cell =sheet2.cell(row=1, column=1, value="Time_Stamp")
-    cell =sheet2.cell(row=1, column=2, value="Total_Voltage(V)")
-    cell =sheet2.cell(row=1, column=3, value="Total_Current(A)")
+    # cell =sheet2.cell(row=1, column=1, value="Time_Stamp")
+    # cell =sheet2.cell(row=1, column=2, value="Total_Voltage(V)")
+    # cell =sheet2.cell(row=1, column=3, value="Total_Current(A)")
     start_row = 1  # You can adjust this to start from a different row
     column_d = 4  # Column D
 
     # Loop to write "Pack 1" to "Pack 26"
     for pack_number in range(1, 27):
         value = f"Pack_Current_{pack_number}"
-        sheet2.cell(row=start_row, column=column_d, value=value)
+        # sheet2.cell(row=start_row, column=column_d, value=value)
         column_d += 1
     loopy = 24
     column = 4
@@ -2435,8 +2467,8 @@ def ProcessData(ferry_ided):
             system_V_Timee.append(converted_times)
             # cell = sheet2.cell(row=rows, column = 1, value = converted_times)
             # cell = sheet2.cell(row=rows, column = 3, value = value)
-    global sheet8
-    sheet8 = workbook.create_sheet(title=f'C_1')
+    # global sheet8
+    # sheet8 = workbook.create_sheet(title=f'C_1')
     for i in range(26):
         
         def Thread1():
@@ -2579,7 +2611,7 @@ def ProcessData(ferry_ided):
             DataBP = False
         column = i + 4
 
-        show_result_window(result2,result3, the_loop,app,total_DC,total_C,workbook,worksheet,sheet2,column,soop,sheet200,ferry_ided)
+        show_result_window(result2,result3, the_loop,app,total_DC,total_C,column,soop,workbook,ferry_ided,sheetProcess)
     end_time = time.time()  # Record the end time
     execution_time = end_time - start_time  # Calculate the execution time
     print(f"Process_Data took {execution_time:.6f} seconds to execute.")
