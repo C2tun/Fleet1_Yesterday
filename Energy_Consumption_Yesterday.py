@@ -2620,3 +2620,10 @@ def ProcessData(ferry_ided):
 for i,ferry in enumerate(ferries):
 
     ProcessData(ferry)
+
+# Sleep for 2 minutes (120 seconds) after the program is complete
+sleep_duration = 120  # 2 minutes
+end_time = time.time() + sleep_duration
+
+while time.time() < end_time:
+    time.sleep(1)  # Sleep for 1 second
