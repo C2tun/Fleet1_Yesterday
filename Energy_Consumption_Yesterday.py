@@ -239,7 +239,7 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
             ino = 0
             for timestamp in timestamps:
                 ditt = len(timestamps)-len(system_V_Time)
-
+                
                 if ino+1 >= len(system_V_Time) - ditt:
                     result_values1.append(map1.get(timestamp, SystemC[ino-ditt]))
                     result_values2.append(map2.get(timestamp, SystemV[ino-ditt]))
@@ -274,9 +274,10 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
             added_timestamps = set()
             ino = 0
             for timestamp in timestamps:
-                ditt = len(timestamps)-len(system_V_Timee)
-
-                if ino+1 >= len(system_V_Timee) - ditt:
+                ditt = len(timestamps)-len(system_V_Timee) 
+                if ino+1 > len(SystemCC):
+                    break
+                elif ino+1 >= len(system_V_Timee) - ditt :
                     result_values1.append(map1.get(timestamp, SystemCC[ino-ditt]))
 
                 else:                 
@@ -2469,6 +2470,8 @@ def ProcessData(ferry_ided):
             # cell = sheet2.cell(row=rows, column = 3, value = value)
     # global sheet8
     # sheet8 = workbook.create_sheet(title=f'C_1')
+    if SystemCC == []:
+        return
     for i in range(26):
         
         def Thread1():
@@ -2618,7 +2621,8 @@ def ProcessData(ferry_ided):
 
 
 for i,ferry in enumerate(ferries):
-
+    # ferrish = int(ferry)
+    # if ferrish != 17:
     ProcessData(ferry)
 
 # Sleep for 2 minutes (120 seconds) after the program is complete
