@@ -558,7 +558,7 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
         # sheet_Pack = workbook.create_sheet(title= f"Pack+{app+1}")
         ferries = int(ferry_ided)
         # print(f"tHIS IS ferry {ferries}")
-        if ferries == 2 or ferries == 18 or ferries == 22:
+        if ferries == 2 or ferries == 18 or ferries == 22 or ferries == 21:
             def CCha():
                 def SOH(input_voltage):
                     global closest_percentage
@@ -2458,7 +2458,7 @@ def ProcessData(ferry_ided):
     global SystemCC
     global system_V_Timee
     SystemCC = []
-    system_V_Timee = []
+    system_V_Timee = [] 
     for table in result_totalC:
         for record in table.records:   
             value = record.get_value()
