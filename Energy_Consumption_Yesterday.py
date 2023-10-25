@@ -2072,8 +2072,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])
+                                if float(SOH_Goop_Min['Cal'][dex]) > 100.0 and float(SOH_Goop_Min['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex]) 
                             lick += 1
                             hick += 1
                             lgg += 1
@@ -2104,8 +2107,12 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick+1, column=13, value=0)
                                 cell = sheet3000.cell(row=lick+1, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop_Min['Cal'][dex])
-                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop_Min['SOH'][dex]) 
+                                
+                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop_Min['SOH'][dex])
+                                if float(SOH_Goop_Min['Cal'][dex]) > 100.0 and float(SOH_Goop_Min['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop_Min['Cal'][dex]) 
                             if len(lost_data4) > 2:
                                 hick += len(lost_data4) - 1
                             else:
@@ -2128,8 +2135,12 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])
+                                if float(SOH_Goop_Min['Cal'][dex]) > 100.0 and float(SOH_Goop_Min['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex]) 
+                                   
                             lick += 1
         else:
             lick = 5
@@ -2157,8 +2168,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])
+                                if float(SOH_Goop['Cal'][dex]) > 100.0 and float(SOH_Goop['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])      
                             lick += 1
                             hick += 1
                             lgg += 1
@@ -2189,8 +2203,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick+1, column=13, value=0)
                                 cell = sheet3000.cell(row=lick+1, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop['Cal'][dex])
-                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop['SOH'][dex]) 
+                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop['SOH'][dex])
+                                if float(SOH_Goop['Cal'][dex]) > 100.0 and float(SOH_Goop['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop['Cal'][dex])  
                             if len(lost_data3) > 2:
                                 hick += len(lost_data3) - 1
                             else:
@@ -2212,8 +2229,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])
+                                if float(SOH_Goop['Cal'][dex]) > 100.0 and float(SOH_Goop['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])   
                             lick += 1
 
         date = str(date)
