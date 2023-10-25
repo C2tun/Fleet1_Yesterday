@@ -2644,6 +2644,268 @@ for i,ferry in enumerate(ferries):
     # ferrish = int(ferry)
     # if ferrish != 17:
     ProcessData(ferry)
+def ProcessRange(ferries):
+    ferry_ided = ferries
+    sampling = '30s'
+
+
+    fields_MaxTemp = []
+    fields_MinTemp = []
+    fields_max = []
+    fields_min = []
+
+
+
+    date_str = str(desired_time1)
+    date = date_str.replace("22:00:00+07:00", "")
+    date = str(date)
+    modified_string = date.replace("-", "/")
+
+    modified_date_save1 = date.replace("-", "")
+    modified_date_save = modified_date_save1.replace(" ", "")
+    hex_values = []
+
+    workbook = openpyxl.Workbook()
+    sheet_Process = workbook.create_sheet(title = f'MaxMins')
+
+    headers = [
+        "Date","Start Time","Stop Time","MSF","Pack No.","MinCellV","MaxCellV","MaxTemp","MinTemp"
+
+    ]   
+
+
+    for index, header in enumerate(headers, start=1):
+            cell = sheet_Process.cell(row=1, column=index, value=header)
+
+    for num in range(1, 27):
+        hex_value = hex(num)[2:].upper()  # Convert integer to hexadecimal and remove the '0x' prefix
+        hex_values.append(hex_value)
+        # print(hex_value)  
+        fields = []
+    for hex_val in hex_values:
+        hex_val_int = int(hex_val, 16)
+        if hex_val_int <= 0xF:
+            field = f"0x180b000{hex_val.lower()}_S{hex_val}_MaxTemp"
+            fields_MaxTemp.append(field)  
+            field_max = f"0x180c000{hex_val.lower()}_S{hex_val}_MaxCell_Voltage"
+            fields_max.append(field_max)
+        else :
+            field = f"0x180b00{hex_val.lower()}_S{hex_val}_MaxTemp"
+            fields_MaxTemp.append(field)  
+            field_max = f"0x180c00{hex_val.lower()}_S{hex_val}_MaxCell_Voltage"
+            fields_max.append(field_max) 
+
+    for hex_val in hex_values:
+        hex_val_int = int(hex_val, 16)
+        if hex_val_int <= 0xF:
+            field = f"0x180b000{hex_val.lower()}_S{hex_val}_MinTemp"
+            fields_MinTemp.append(field)  
+            field_min = f"0x180c000{hex_val.lower()}_S{hex_val}_MinCell_Voltage"
+            fields_min.append(field_min)            
+        else :
+            field = f"0x180b00{hex_val.lower()}_S{hex_val}_MinTemp"
+            fields_MinTemp.append(field)  
+            field_min = f"0x180c00{hex_val.lower()}_S{hex_val}_MinCell_Voltage"
+            fields_min.append(field_min)   
+    # print(fields_max)
+
+    for i in range(26):
+        
+        def Thread1():
+            global result_MaxTemp # Access the global variables
+            query2 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_MaxTemp[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: true)'
+            
+
+
+            # print(query2) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MaxTemp = query_api.query(org=org, query=query2)
+            # print("processing")
+            results_MaxTemps = []
+
+            for table in result_MaxTemp:
+                for record in table.records:
+                    results_MaxTemps.append((record.get_field(), record.get_value()))
+            
+            global_result2 = result_MaxTemp
+        def Thread2():
+            global result_MinTemp  # Access the global variables
+
+
+            query3 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_MinTemp[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+
+
+            # print(query3) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MinTemp = query_api.query(org=org, query=query3)
+            # print("processing")
+            results_MinTemps = []
+            for table in result_MinTemp:
+                for record in table.records:
+                    results_MinTemps.append((record.get_field(), record.get_value()))
+            
+            
+            global_result3 = result_MinTemp
+        def Thread3():
+            global result_MaxCell
+
+            query4 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_max[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+
+
+            # print(query4) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MaxCell = query_api.query(org=org, query=query4)
+            # print("processing")
+            results_MaxCells = []
+            for table in result_MaxCell:
+                for record in table.records:
+                    results_MaxCells.append((record.get_field(), record.get_value()))
+            result_maxs = results_MaxCells
+            # print(results_MaxCells)
+        def Thread4():
+            global result_MinCell
+            query5 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_min[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+            # print(query5) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MinCell = query_api.query(org=org, query=query5)
+            # print("processing")
+            results_MinCells = []
+            for table in result_MinCell:
+                for record in table.records:
+                    results_MinCells.append((record.get_field(), record.get_value()))
+        threading_Timer_s = time.time()
+        thread1 = threading.Thread(target=Thread1)
+        thread2 = threading.Thread(target=Thread2)
+        thread3 = threading.Thread(target=Thread3)
+        thread4 = threading.Thread(target=Thread4)
+
+        # print(results3)
+
+
+        # Start the threads
+        thread1.start()
+        thread2.start()
+        thread3.start()
+        thread4.start()
+        # Wait for both threads to finish
+        thread1.join()
+        thread2.join()
+        thread3.join()
+        thread4.join()
+
+
+        threading_Timer_e = time.time()
+        execution_time_thread = threading_Timer_e - threading_Timer_s
+        print(f"Process_Data took {execution_time_thread:.6f} seconds to execute.")
+
+        Value_maxtemp = []
+        Value_mintemp = []
+        Value_maxV = []
+        Value_minV = []
+
+        for table in result_MaxTemp:
+            for record in table.records:
+                timestamp = record.get_time()
+                field = record.get_field()
+                value = record.get_value()
+                Value_maxtemp.append(value)
+
+        for table in result_MinTemp:
+            for record in table.records:
+                value = record.get_value()
+                Value_mintemp.append(value)
+
+        for table in result_MaxCell:
+            for record in table.records:
+                value = record.get_value()/1000
+                Value_maxV.append(value)
+
+        for table in result_MinCell:
+            for record in table.records:
+                value = record.get_value()/1000
+                Value_minV.append(value)
+        if Value_maxtemp != []:
+            MaxTemp = max(Value_maxtemp)
+        else:
+            MaxTemp = 0
+        if  Value_mintemp != []:    
+            MinTemp = min(Value_mintemp)
+        else:
+            MinTemp = 0
+        if  Value_maxV != []:
+            MaxVolt = max(Value_maxV)
+        else:
+            MaxVolt = 0
+        if  Value_minV != []:
+            MinVolt = min(Value_minV)
+        else:
+            MinVolt = 0
+
+        cell = sheet_Process.cell(row=i + 2, column = 4, value = ferries)
+        cell = sheet_Process.cell(row=i + 2, column = 5, value = i+1)
+        cell = sheet_Process.cell(row=i + 2, column = 1, value = modified_string)
+        cell = sheet_Process.cell(row=i + 2, column=2, value= "5:00:00")
+        cell = sheet_Process.cell(row=i + 2, column=3, value="22:00:00")  
+        cell = sheet_Process.cell(row=i + 2, column=6, value=MinVolt)  
+        cell = sheet_Process.cell(row=i + 2, column=7, value=MaxVolt)  
+        cell = sheet_Process.cell(row=i + 2, column=8, value=MaxTemp)  
+        cell = sheet_Process.cell(row=i + 2, column=9, value=MinTemp)  
+
+    # # Define the directory where you want to save the files
+    # folder_path = os.path.join(os.path.expanduser('~'), 'Documents', f'{modified_date_save}_MinMax')
+
+    # # If the directory does not exist, create it
+    # if not os.path.exists(folder_path):
+    #     os.makedirs(folder_path)
+
+    base_filename_Usage = f'{modified_date_save}_MSF{ferry_ided}_Usage.xlsx'
+    counter = 0
+    while os.path.exists( base_filename_Usage):
+        counter += 1
+        base_filename_Usage = f'{modified_date_save}_MSF{ferry_ided}_Usage_{counter}.xlsx'
+    # Save the wordbook2 to a file
+    del workbook['Sheet']
+    workbook.save(os.path.join(base_filename_Usage))
+    print(f'Saved as: {base_filename_Usage}')
+
+ferris = Get_ferry_id()
+for i in ferris:
+    ProcessRange(i)
 
 # Sleep for 2 minutes (120 seconds) after the program is complete
 sleep_duration = 120  # 2 minutes
