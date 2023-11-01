@@ -2667,16 +2667,21 @@ def ProcessRange(ferries):
 
     workbook = openpyxl.Workbook()
     sheet_Process = workbook.create_sheet(title = f'MaxMins')
-
-    headers = [
-        "Date","Start Time","Stop Time","MSF","Pack No.","MinCellV","MaxCellV","MaxTemp","MinTemp"
+    workbook2 = openpyxl.Workbook()
+    sheet_Process_Vdiff = workbook2.create_sheet(title = f'MaxMins')
+    headers2 = [
+        "Date","Start Time","Stop Time","MSF","Pack No.","Cell_V_Diff_Time","MaxCellV","MinCellV","Cell_V_Diff"
 
     ]   
+    headers = [
+        "Date","Start Time","Stop Time","MSF","Pack No.","MinCellV","MaxCellV","MaxTemp","MinTemp""Max_Cell_Diff","Time_C_Diff"
 
+    ]  
 
     for index, header in enumerate(headers, start=1):
             cell = sheet_Process.cell(row=1, column=index, value=header)
-
+    for index, header in enumerate(headers2, start=1):
+            cell = sheet_Process_Vdiff.cell(row=1, column=index, value=header)
     for num in range(1, 27):
         hex_value = hex(num)[2:].upper()  # Convert integer to hexadecimal and remove the '0x' prefix
         hex_values.append(hex_value)
@@ -2837,10 +2842,12 @@ def ProcessRange(ferries):
         Value_mintemp = []
         Value_maxV = []
         Value_minV = []
-
+        timestamps = []
         for table in result_MaxTemp:
             for record in table.records:
                 timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                timestamps.append(converted_time1)
                 field = record.get_field()
                 value = record.get_value()
                 Value_maxtemp.append(value)
@@ -2859,6 +2866,8 @@ def ProcessRange(ferries):
             for record in table.records:
                 value = record.get_value()/1000
                 Value_minV.append(value)
+
+
         if Value_maxtemp != []:
             MaxTemp = max(Value_maxtemp)
         else:
@@ -2876,6 +2885,28 @@ def ProcessRange(ferries):
         else:
             MinVolt = 0
 
+        Value_CellDiff = []
+        PValue = 0
+        if Value_maxV != []:
+            for k,maxV in enumerate(Value_maxV ):
+                Value = maxV - Value_minV[k]
+                Value_CellDiff.append(Value)
+                if Value >  PValue:
+                    PValue = Value
+                    timy = k
+        if timestamps != []:
+            timmy = timestamps[timy]
+            timmy_max = Value_maxV[timy]
+            timmy_min = Value_minV[timy]
+        else:
+            timmy = 0
+            timmy_max =0
+            timmy_min = 0  
+        if Value_CellDiff != []:
+            Cell_Diff = max(Value_CellDiff)
+        else:
+            Cell_Diff = 0
+        
         cell = sheet_Process.cell(row=i + 2, column = 4, value = ferries)
         cell = sheet_Process.cell(row=i + 2, column = 5, value = i+1)
         cell = sheet_Process.cell(row=i + 2, column = 1, value = modified_string)
@@ -2884,24 +2915,40 @@ def ProcessRange(ferries):
         cell = sheet_Process.cell(row=i + 2, column=6, value=MinVolt)  
         cell = sheet_Process.cell(row=i + 2, column=7, value=MaxVolt)  
         cell = sheet_Process.cell(row=i + 2, column=8, value=MaxTemp)  
-        cell = sheet_Process.cell(row=i + 2, column=9, value=MinTemp)  
+        cell = sheet_Process.cell(row=i + 2, column=9, value=MinTemp) 
+        
 
-    # # Define the directory where you want to save the files
-    # folder_path = os.path.join(os.path.expanduser('~'), 'Documents', f'{modified_date_save}_MinMax')
 
-    # # If the directory does not exist, create it
-    # if not os.path.exists(folder_path):
-    #     os.makedirs(folder_path)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column = 4, value = ferries)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column = 5, value = i+1)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column = 1, value = modified_string)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column=2, value= "5:00:00")
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column=3, value="22:00:00") 
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=7, value=timmy_max)  
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=8, value=timmy_min)  
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=6, value=timmy)  
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=9, value=Cell_Diff) 
+    # Define the directory where you want to save the files
 
-    base_filename_Usage = f'{modified_date_save}_MSF{ferry_ided}_Usage.xlsx'
+
+    base_filename = f'{modified_date_save}_MSF{ferry_ided}_Usage.xlsx'
     counter = 0
-    while os.path.exists( base_filename_Usage):
+    while os.path.exists( base_filename):
         counter += 1
-        base_filename_Usage = f'{modified_date_save}_MSF{ferry_ided}_Usage_{counter}.xlsx'
+        base_filename = f'{modified_date_save}_MSF{ferry_ided}_Usage_{counter}.xlsx'
     # Save the wordbook2 to a file
     del workbook['Sheet']
-    workbook.save(os.path.join(base_filename_Usage))
-    print(f'Saved as: {base_filename_Usage}')
+    workbook.save( base_filename)
+    print(f'Saved as: {base_filename}')
+    base_filename2 = f'{modified_date_save}_MSF{ferry_ided}_Diagnose.xlsx'
+    counter = 0
+    while os.path.exists( base_filename2):
+        counter += 1
+        base_filename2 = f'{modified_date_save}_MSF{ferry_ided}_Diagnose_{counter}.xlsx'
+    # Save the wordbook2 to a file
+    del workbook2['Sheet']
+    workbook2.save(base_filename2)
+    print(f'Saved as: {base_filename2}')    
 
 ferris = Get_ferry_id()
 for i in ferris:
