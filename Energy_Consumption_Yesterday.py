@@ -3162,7 +3162,7 @@ def ProcessRange(ferries):
     sheet_Process = workbook.create_sheet(title = f'MaxMins')
     workbook2 = openpyxl.Workbook()
     sheet_Process_Vdiff = workbook2.create_sheet(title = f'MaxMins')
-    sheet_PackStat_Sum = workbook.create_sheet(title=f'PackFault')
+    sheet_PackStat_Sum = workbook2.create_sheet(title=f'PackFault')
     headers2 = [
         "Date","Start Time","Stop Time","MSF","Pack No.","Cell_V_Diff_Time","MaxCellV","MinCellV","Cell_V_Diff"
 
