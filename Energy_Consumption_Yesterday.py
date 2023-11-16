@@ -2877,6 +2877,24 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             result2 = query_api.query(org=org, query=query2)
             result_PackV = result2
 
+        def Thread7():
+            global result_PackOnline  # Access the global variables
+            queryPackOnline = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "mbcu")\
+            |> filter(fn:(r) => r._field == "0x1801d0f3_BatPack_Fault_Strings_Number" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: true)'
+            
+
+
+            # print(queryPackOnline) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            resultPOnline = query_api.query(org=org, query=queryPackOnline)
+            result_PackOnline = resultPOnline
 
         threading_Timer_s = time.time()
         thread1 = threading.Thread(target=Thread1)
@@ -2885,6 +2903,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
         thread4 = threading.Thread(target=Thread4)
         thread5 = threading.Thread(target=Threads5)
         thread6 = threading.Thread(target=Thread6)
+        thread7 = threading.Thread(target=Thread7)
         # print(results3)
 
 
@@ -2895,6 +2914,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
         thread4.start()
         thread5.start()
         thread6.start()    
+        thread7.start()    
 
         # Wait for both threads to finish
         thread1.join()
@@ -2903,13 +2923,15 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
         thread4.join()
         thread5.join()
         thread6.join()
+        thread7.join()
 
         threading_Timer_e = time.time()
         execution_time_thread = threading_Timer_e - threading_Timer_s
         print(f"Process_Data took {execution_time_thread:.6f} seconds to execute.")        
         Value_SystemV = []
         Value_PackV = []
-
+        Value_SystemTime = []
+        PackOffline = 0
         smooth = 2
         for table in result_totalV:
             for record in table.records:
@@ -2919,9 +2941,20 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
                 # if converted_time1 == timestamp_PackStat_Off[0]:
                 #     Value_total_V = value
                 Value_SystemV.append(value)
+                Value_SystemTime.append(converted_time1)
                 # cell = sheet_PackStat_V.cell(row=smooth, column = 2, value = value) 
                 # cell = sheet_PackStat_V.cell(row=smooth, column = 1, value = converted_time1)
                 smooth += 1
+
+        for table in result_PackOnline:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()
+                # if converted_time1 == timestamp_PackStat_Off[0]:
+                #     Value_total_V = value
+                if value < 26 or value > 0:
+                    PackOffline = 1
 
         smooth = 2
         iish = 0
@@ -2942,10 +2975,12 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
                 difference_for_t = abs(value - Value_SystemV[iish])
                 if difference_for_t > 5.0 and saved == False:
                     saved = True
-                    saved_time = converted_time1
+                    saved_time = Value_SystemTime[iish]
                     saved_SV = Value_SystemV[iish]
                     saved_PV = value
-                if difference_for_t < 5.0 and saved_2 == False:
+                if difference_for_t > 5.0:
+                    saved_2 = False
+                if difference_for_t < 1.0 and saved_2 == False:
                     saved_end_time = converted_time1
                     saved_2 = True
                 # cell = sheet_PackStat_V.cell(row=smooth, column = num + 4, value = value) 
@@ -2955,7 +2990,11 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             if saved_2 == False:
                 saved_end_time = converted_time1
 
- 
+        if result_PackV == []:
+            saved_time = Value_SystemTime[0]
+            saved_end_time = Value_SystemTime[-1]
+            print(saved_time)
+      
 
         
         if Value_PackV != []:
@@ -2968,7 +3007,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
         # cell = sheet_PackStat_V.cell(row=smooth+2, column = 3, value = System_avg)         
         Voltage_difference = abs(System_avg-Pack_avg)
 
-        if Voltage_difference > 5.0 :
+        if Voltage_difference > 5.0 and PackOffline == 1 :
 
             # cell = sheet_PackStat_V.cell(row=smooth+3, column = num + 4, value = "Bad") 
 
@@ -2978,7 +3017,12 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             MinCell_V = []
             Max_Temp = []
             Min_Temp = []
-
+            Value_maxV = 0
+            Value_minV = 0
+            Value_maxtemp = 0
+            Value_mintemp = 0
+            Value_total_V = 0
+            Value_PackV = 0
 
             for table in result_MaxTemp:
                 for record in table.records:
@@ -3036,6 +3080,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             Temp_Min_p = 0 
             Volt_Diff_p = 0
             Fuse_DC = 0
+
             Total_Cell_V = Value_maxV + Value_minV
             if Total_Cell_V > 4.9 and Total_Cell_V <= 5.1:
                 BCU_con_p = 1
@@ -3144,11 +3189,20 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
 
                 MinCell_V.append(value)
 
-        Cell_Max_V_today = max(MaxCell_V)
-        Cell_Min_V_today = min(MinCell_V)
-        Temp_Max_today = max(Max_Temp)
-        Temp_Min_today = min(Min_Temp)
+        # Cell_Max_V_today = 0
+        # Cell_Min_V_today = 0
+        # Temp_Max_today = 0
+        # Temp_Min_today = 0
 
+        if MaxCell_V != []:
+            Cell_Max_V_today = max(MaxCell_V)
+        if MinCell_V != []:
+            Cell_Min_V_today = min(MinCell_V)
+        if Max_Temp != []:
+            Temp_Max_today = max(Max_Temp)
+        if Min_Temp != []:
+            Temp_Min_today = min(Min_Temp)
+        
         Cell_Max_Over = 0
         Cell_Min_Under = 0
         Temp_Max_Over = 0
