@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import pytz
-#aa
+
 import os
 from tkcalendar import DateEntry
 import tkinter as tk
@@ -239,7 +239,7 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
             ino = 0
             for timestamp in timestamps:
                 ditt = len(timestamps)-len(system_V_Time)
-
+                
                 if ino+1 >= len(system_V_Time) - ditt:
                     result_values1.append(map1.get(timestamp, SystemC[ino-ditt]))
                     result_values2.append(map2.get(timestamp, SystemV[ino-ditt]))
@@ -274,9 +274,10 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
             added_timestamps = set()
             ino = 0
             for timestamp in timestamps:
-                ditt = len(timestamps)-len(system_V_Timee)
-
-                if ino+1 >= len(system_V_Timee) - ditt:
+                ditt = len(timestamps)-len(system_V_Timee) 
+                if ino+1 > len(SystemCC):
+                    break
+                elif ino+1 >= len(system_V_Timee) - ditt :
                     result_values1.append(map1.get(timestamp, SystemCC[ino-ditt]))
 
                 else:                 
@@ -557,7 +558,7 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
         # sheet_Pack = workbook.create_sheet(title= f"Pack+{app+1}")
         ferries = int(ferry_ided)
         # print(f"tHIS IS ferry {ferries}")
-        if ferries == 2 or ferries == 18 or ferries == 22:
+        if ferries == 2 or ferries == 18 or ferries == 22 or ferries == 21:
             def CCha():
                 def SOH(input_voltage):
                     global closest_percentage
@@ -2071,8 +2072,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])
+                                if float(SOH_Goop_Min['Cal'][dex]) > 100.0 and float(SOH_Goop_Min['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex]) 
                             lick += 1
                             hick += 1
                             lgg += 1
@@ -2103,8 +2107,12 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick+1, column=13, value=0)
                                 cell = sheet3000.cell(row=lick+1, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop_Min['Cal'][dex])
-                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop_Min['SOH'][dex]) 
+                                
+                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop_Min['SOH'][dex])
+                                if float(SOH_Goop_Min['Cal'][dex]) > 100.0 and float(SOH_Goop_Min['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop_Min['Cal'][dex]) 
                             if len(lost_data4) > 2:
                                 hick += len(lost_data4) - 1
                             else:
@@ -2127,8 +2135,12 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop_Min['SOH'][dex])
+                                if float(SOH_Goop_Min['Cal'][dex]) > 100.0 and float(SOH_Goop_Min['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop_Min['Cal'][dex]) 
+                                   
                             lick += 1
         else:
             lick = 5
@@ -2156,8 +2168,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])
+                                if float(SOH_Goop['Cal'][dex]) > 100.0 and float(SOH_Goop['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])      
                             lick += 1
                             hick += 1
                             lgg += 1
@@ -2188,8 +2203,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick+1, column=13, value=0)
                                 cell = sheet3000.cell(row=lick+1, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop['Cal'][dex])
-                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop['SOH'][dex]) 
+                                cell = sheet3000.cell(row=lick+1, column=12, value=SOH_Goop['SOH'][dex])
+                                if float(SOH_Goop['Cal'][dex]) > 100.0 and float(SOH_Goop['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick+1, column=13, value=SOH_Goop['Cal'][dex])  
                             if len(lost_data3) > 2:
                                 hick += len(lost_data3) - 1
                             else:
@@ -2211,8 +2229,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
                                 cell = sheet3000.cell(row=lick, column=13, value=0)
                                 cell = sheet3000.cell(row=lick, column=12, value=0)   
                             else:
-                                cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])
-                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])    
+                                cell = sheet3000.cell(row=lick, column=12, value=SOH_Goop['SOH'][dex])
+                                if float(SOH_Goop['Cal'][dex]) > 100.0 and float(SOH_Goop['Cal'][dex]) <120.0:
+                                    cell = sheet3000.cell(row=lick, column=13, value=100) 
+                                else:
+                                    cell = sheet3000.cell(row=lick, column=13, value=SOH_Goop['Cal'][dex])   
                             lick += 1
 
         date = str(date)
@@ -2457,7 +2478,7 @@ def ProcessData(ferry_ided):
     global SystemCC
     global system_V_Timee
     SystemCC = []
-    system_V_Timee = []
+    system_V_Timee = [] 
     for table in result_totalC:
         for record in table.records:   
             value = record.get_value()
@@ -2469,6 +2490,8 @@ def ProcessData(ferry_ided):
             # cell = sheet2.cell(row=rows, column = 3, value = value)
     # global sheet8
     # sheet8 = workbook.create_sheet(title=f'C_1')
+    if SystemCC == []:
+        return
     for i in range(26):
         
         def Thread1():
@@ -2618,5 +2641,951 @@ def ProcessData(ferry_ided):
 
 
 for i,ferry in enumerate(ferries):
-
+    # ferrish = int(ferry)
+    # if ferrish != 17:
     ProcessData(ferry)
+
+
+
+date_str = str(desired_time1)
+date = date_str.replace("22:00:00+07:00", "")
+date = str(date)
+modified_string = date.replace("-", "/")
+modified_date_save1 = date.replace("-", "")
+modified_date_save = modified_date_save1.replace(" ", "")
+
+def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
+    global ferry_ide
+    ferry_ide = ferry_ided
+    start_time = time.time()  # Record the start time
+
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+
+    date_str = str(desired_time1)
+    date = date_str.replace("22:00:00+07:00", "")
+
+    sampling = '30s'
+    # Create a new Excel workbook and add a sheet
+    # workbook = openpyxl.Workbook()
+    # worksheet = workbook.active
+
+    hex_values =[]  
+    fields_c = []
+    fields_v = []
+    fields_max = []
+    fields_min = []
+    field_online_stat = []
+    fields_MaxTemp = []
+    fields_MinTemp = []
+
+
+
+    for num in range(1, 27):
+        hex_value = hex(num)[2:].upper()  # Convert integer to hexadecimal and remove the '0x' prefix
+        hex_values.append(hex_value)
+        # print(hex_value)  
+        fields = []
+    for hex_val in hex_values:
+        hex_val_int = int(hex_val, 16)
+        if hex_val_int <= 0xF:
+            field = f"0x180a000{hex_val.lower()}_S{hex_val}_BatPack_Current"
+            fields_c.append(field)  
+            field = f"0x180b000{hex_val.lower()}_S{hex_val}_MinTemp"
+            fields_MinTemp.append(field)  
+            field_max = f"0x180c000{hex_val.lower()}_S{hex_val}_MaxCell_Voltage"
+            fields_max.append(field_max)
+        else :
+            field = f"0x180a00{hex_val.lower()}_S{hex_val}_BatPack_Current"
+            fields_c.append(field)  
+            field = f"0x180b00{hex_val.lower()}_S{hex_val}_MinTemp"
+            fields_MinTemp.append(field)  
+            field_max = f"0x180c00{hex_val.lower()}_S{hex_val}_MaxCell_Voltage"
+            fields_max.append(field_max) 
+
+    for hex_val in hex_values:
+        hex_val_int = int(hex_val, 16)
+        if hex_val_int <= 0xF:
+            field = f"0x180a000{hex_val.lower()}_S{hex_val}_BatPack_Voltage"
+            fields_v.append(field)  
+            field = f"0x180b000{hex_val.lower()}_S{hex_val}_MaxTemp"
+            fields_MaxTemp.append(field)  
+            field_min = f"0x180c000{hex_val.lower()}_S{hex_val}_MinCell_Voltage"
+            fields_min.append(field_min)            
+        else :
+            field = f"0x180a00{hex_val.lower()}_S{hex_val}_BatPack_Voltage"
+            fields_v.append(field)  
+            field = f"0x180b00{hex_val.lower()}_S{hex_val}_MaxTemp"
+            fields_MaxTemp.append(field)  
+            field_min = f"0x180c00{hex_val.lower()}_S{hex_val}_MinCell_Voltage"
+            fields_min.append(field_min)   
+
+    for num in range(1, 27):
+            field = f"0x1805d0f3_Pack{num}_Status"
+            field_online_stat.append(field)
+
+
+    headers = [
+        "Date","Start Time","Stop Time","Ferry","Pack No.",
+        "Fault_Pack","Possible_Cause",
+        "Time_Disconnected","Time_Disconnected_Until","System_V","Pack_V","MaxCell_V","MinCell_V","MaxTemp","MinTemp,", "MaxCell_Over","MinCell_Under","Temp_Over","Temp_Under"
+    ]
+
+    for index, header in enumerate(headers, start=1):
+            cell = sheet_PackStat_Sum.cell(row=1, column=index, value=header)    
+    g = 1
+    h = 2
+
+    for num in range(1, 27):
+        hex_value = hex(num)[2:].upper()  # Convert integer to hexadecimal and remove the '0x' prefix
+        hex_values.append(hex_value)
+        # print(hex_value)
+
+        field_MaxTemp = fields_MaxTemp[num-1]
+        field_MinTemp = fields_MinTemp[num-1]
+        field_max = fields_max[num-1]
+        field_min = fields_min[num-1]
+
+        cell = sheet_PackStat_Sum.cell(row=num+1, column=5, value= num)
+        cell = sheet_PackStat_Sum.cell(row=num+1, column=1, value= modified_string)
+        cell = sheet_PackStat_Sum.cell(row=num+1, column=4, value=ferry_ided)
+        cell = sheet_PackStat_Sum.cell(row=num+1, column=2, value= "5:00:00")
+        cell = sheet_PackStat_Sum.cell(row=num+1, column=3, value="22:00:00")
+
+        def Thread1():
+            global result_MaxTemp # Access the global variables
+            query2 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{field_MaxTemp}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: true)'
+            
+
+
+            # print(query2) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MaxTemp = query_api.query(org=org, query=query2)
+            # print("processing")
+            results_MaxTemps = []
+
+
+
+        def Thread2():
+            global result_MinTemp  # Access the global variables
+
+
+            query3 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{field_MinTemp}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+
+
+            # print(query3) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MinTemp = query_api.query(org=org, query=query3)
+            # print("processing")
+
+
+        def Thread3():
+            global result_MaxCell
+
+            query4 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{field_max}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+
+
+            # print(query4) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MaxCell = query_api.query(org=org, query=query4)
+            # print("processing")
+
+
+        def Thread4():
+            global result_MinCell
+            query5 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{field_min}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+            # print(query5) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MinCell = query_api.query(org=org, query=query5)
+
+
+
+
+
+
+        def Threads5():
+            global result_totalV
+            query_totalV = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "mbcu")\
+            |> filter(fn:(r) => r._field == "0x1801d0f3_BatPack_TotVoltage" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)\
+            |> yield(name: "last")'
+            
+            
+
+
+            # print(query_totalV) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+        # Write a query and execute it
+
+            result_totalV = query_api.query(org=org, query=query_totalV)
+
+        def Thread6():
+            global result_PackV  # Access the global variables
+            query2 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_v[num-1]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: true)'
+            
+
+
+            # print(query2) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result2 = query_api.query(org=org, query=query2)
+            result_PackV = result2
+
+        def Thread7():
+            global result_PackOnline  # Access the global variables
+            queryPackOnline = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "mbcu")\
+            |> filter(fn:(r) => r._field == "0x1801d0f3_BatPack_Fault_Strings_Number" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: true)'
+            
+
+
+            # print(queryPackOnline) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            resultPOnline = query_api.query(org=org, query=queryPackOnline)
+            result_PackOnline = resultPOnline
+
+        threading_Timer_s = time.time()
+        thread1 = threading.Thread(target=Thread1)
+        thread2 = threading.Thread(target=Thread2)
+        thread3 = threading.Thread(target=Thread3)
+        thread4 = threading.Thread(target=Thread4)
+        thread5 = threading.Thread(target=Threads5)
+        thread6 = threading.Thread(target=Thread6)
+        thread7 = threading.Thread(target=Thread7)
+        # print(results3)
+
+
+        # Start the threads
+        thread1.start()
+        thread2.start()
+        thread3.start()
+        thread4.start()
+        thread5.start()
+        thread6.start()    
+        thread7.start()    
+
+        # Wait for both threads to finish
+        thread1.join()
+        thread2.join()
+        thread3.join()
+        thread4.join()
+        thread5.join()
+        thread6.join()
+        thread7.join()
+
+        threading_Timer_e = time.time()
+        execution_time_thread = threading_Timer_e - threading_Timer_s
+        print(f"Process_Data took {execution_time_thread:.6f} seconds to execute.")        
+        Value_SystemV = []
+        Value_PackV = []
+        Value_SystemTime = []
+        PackOffline = 0
+        smooth = 2
+        for table in result_totalV:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()
+                # if converted_time1 == timestamp_PackStat_Off[0]:
+                #     Value_total_V = value
+                Value_SystemV.append(value)
+                Value_SystemTime.append(converted_time1)
+                # cell = sheet_PackStat_V.cell(row=smooth, column = 2, value = value) 
+                # cell = sheet_PackStat_V.cell(row=smooth, column = 1, value = converted_time1)
+                smooth += 1
+
+        for table in result_PackOnline:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()
+                # if converted_time1 == timestamp_PackStat_Off[0]:
+                #     Value_total_V = value
+                if value < 26 or value > 0:
+                    PackOffline = 1
+
+        smooth = 2
+        iish = 0
+        saved = False
+        saved_SV = 0
+        saved_PV = 0
+        saved_time = 0
+        saved_2 = False
+
+        for table in result_PackV:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()
+                # if converted_time1 == timestamp_PackStat_Off[0]:
+                #     Value_PackV = value
+                Value_PackV.append(value)
+                difference_for_t = abs(value - Value_SystemV[iish])
+                if difference_for_t > 5.0 and saved == False:
+                    saved = True
+                    saved_time = Value_SystemTime[iish]
+                    saved_SV = Value_SystemV[iish]
+                    saved_PV = value
+                if difference_for_t > 5.0:
+                    saved_2 = False
+                if difference_for_t < 1.0 and saved_2 == False:
+                    saved_end_time = converted_time1
+                    saved_2 = True
+                # cell = sheet_PackStat_V.cell(row=smooth, column = num + 4, value = value) 
+                # cell = sheet_PackStat_V.cell(row=smooth, column = 3, value = converted_time1) 
+                smooth += 1
+                iish += 1
+            if saved_2 == False:
+                saved_end_time = converted_time1
+
+        if result_PackV == []:
+            saved_time = Value_SystemTime[0]
+            saved_end_time = Value_SystemTime[-1]
+            print(saved_time)
+      
+
+        
+        if Value_PackV != []:
+            Pack_avg = sum(Value_PackV)/len(Value_PackV)
+        else:
+            Pack_avg = 0
+        System_avg  = sum(Value_SystemV)/len(Value_SystemV)
+
+        # cell = sheet_PackStat_V.cell(row=smooth+2, column = num + 4, value =Pack_avg) 
+        # cell = sheet_PackStat_V.cell(row=smooth+2, column = 3, value = System_avg)         
+        Voltage_difference = abs(System_avg-Pack_avg)
+
+        if Voltage_difference > 5.0 and PackOffline == 1 :
+
+            # cell = sheet_PackStat_V.cell(row=smooth+3, column = num + 4, value = "Bad") 
+
+
+
+            MaxCell_V = []
+            MinCell_V = []
+            Max_Temp = []
+            Min_Temp = []
+            Value_maxV = 0
+            Value_minV = 0
+            Value_maxtemp = 0
+            Value_mintemp = 0
+            Value_total_V = 0
+            Value_PackV = 0
+
+            for table in result_MaxTemp:
+                for record in table.records:
+                    timestamp = record.get_time()
+                    converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                    
+                    field = record.get_field()
+                    value = record.get_value()
+
+                    Max_Temp.append(value)
+                    
+
+                    if converted_time1 == saved_time:
+                        Value_maxtemp = int(value)
+
+
+            for table in result_MinTemp:
+                for record in table.records:
+                    timestamp = record.get_time()
+                    converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                    value = record.get_value()
+
+                    Min_Temp.append(value)
+
+                    if converted_time1 == saved_time:
+                        Value_mintemp = int(value)
+
+            for table in result_MaxCell:
+
+                for record in table.records:
+                    timestamp = record.get_time()
+                    converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                    value = record.get_value()/1000
+
+                    MaxCell_V.append(value)
+
+                    if converted_time1 == saved_time:
+                        Value_maxV = float(value)
+
+            for table in result_MinCell:
+                for record in table.records:
+                    timestamp = record.get_time()
+                    converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                    value = record.get_value()/1000
+
+                    MinCell_V.append(value)
+
+                    if converted_time1 == saved_time:
+                        Value_minV = float(value)
+
+            BCU_con_p = 0
+            Cell_Max_p = 0
+            Cell_Min_p = 0
+            Temp_Max_p = 0
+            Temp_Min_p = 0 
+            Volt_Diff_p = 0
+            Fuse_DC = 0
+
+            Total_Cell_V = Value_maxV + Value_minV
+            if Total_Cell_V > 4.9 and Total_Cell_V <= 5.1:
+                BCU_con_p = 1
+            if Value_maxV > 4.19 :
+                Cell_Max_p = 1
+            if Value_minV < 3.05 and Value_minV > 0:
+                Cell_Min_p = 1
+            if Value_maxtemp >= 55 :
+                Temp_Max_p = 1
+            if Value_mintemp < 0 :
+                Temp_Min_p = 1
+            if BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 0 and Temp_Max_p == 0 and Temp_Min_p == 0:
+                Volt_Diff = abs(saved_SV-saved_PV)
+                if Volt_Diff > 5.0 or Volt_Diff < -5.0:
+                    Volt_Diff_p = 1
+            if Value_maxV == 0 and Value_minV == 0 and Value_maxtemp == 0 and Value_mintemp == 0 and saved_PV == 0:
+                Fuse_DC = 1
+            Fault_Massage = ["BCU_Connector_Problem","MaxCellV_Over","MinCellV_Under","MaxTemp_Over","MinTemp_Under","Fuse Disconnected","Volt Diff(Cause Undetected)","Lost_Data"]
+            if BCU_con_p == 1:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[0])
+            elif BCU_con_p == 0 and Cell_Max_p == 1:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[1])
+            elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 1:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[2])
+            elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 0 and Temp_Max_p == 1:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[3])
+            elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 0 and Temp_Max_p == 0 and Temp_Min_p == 1:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[4])
+            elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 0 and Temp_Max_p == 0 and Temp_Min_p == 0 and Fuse_DC == 1:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[5])
+            elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 0 and Temp_Max_p == 0 and Temp_Min_p == 0 and Fuse_DC == 0 and Volt_Diff_p:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[6])
+            else:
+                cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[7])
+
+            Total_V_Col = 10
+            Value_PackV_Col = 11
+            Value_maxV_Col = 12
+            Value_minV_Col = 13
+            Value_maxtemp_Col = 14
+            Value_mintemp_Col = 15
+            Value_stime = 8
+            Value_etime = 9
+
+
+
+
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 6, value = 1) 
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Total_V_Col, value = saved_SV) 
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_PackV_Col, value = saved_PV)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_maxV_Col, value = Value_maxV)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_minV_Col, value = Value_minV)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_maxtemp_Col, value = Value_maxtemp)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_mintemp_Col, value = Value_mintemp)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_stime, value = saved_time)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_etime, value = saved_end_time)
+
+    # Define the directory where you want to save the files
+
+
+        else:
+            # cell = sheet_PackStat_V.cell(row=smooth+3, column = num + 4, value = "Good")
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 6, value = 0) 
+        MaxCell_V = []
+        MinCell_V = []
+        Max_Temp = []
+        Min_Temp = []
+
+
+        for table in result_MaxTemp:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                
+                field = record.get_field()
+                value = record.get_value()
+
+                Max_Temp.append(value)
+                
+
+
+
+        for table in result_MinTemp:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()
+
+                Min_Temp.append(value)
+
+        for table in result_MaxCell:
+
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()/1000
+
+                MaxCell_V.append(value)
+
+
+        for table in result_MinCell:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                value = record.get_value()/1000
+
+                MinCell_V.append(value)
+
+        # Cell_Max_V_today = 0
+        # Cell_Min_V_today = 0
+        # Temp_Max_today = 0
+        # Temp_Min_today = 0
+
+        if MaxCell_V != []:
+            Cell_Max_V_today = max(MaxCell_V)
+        if MinCell_V != []:
+            Cell_Min_V_today = min(MinCell_V)
+        if Max_Temp != []:
+            Temp_Max_today = max(Max_Temp)
+        if Min_Temp != []:
+            Temp_Min_today = min(Min_Temp)
+        
+        Cell_Max_Over = 0
+        Cell_Min_Under = 0
+        Temp_Max_Over = 0
+        Temp_Min_Under = 0
+        if ferries == 2 or ferries == 18 or ferries ==  22 or ferries == 21:
+            if Cell_Max_V_today > 4.12 :
+                Cell_Max_Over = 1 
+        else :           
+            if Cell_Max_V_today > 4.16 :
+                Cell_Max_Over = 1
+        if Cell_Min_V_today < 3.4 :
+            Cell_Min_Under = 1
+        if Temp_Max_today > 40 :
+            Temp_Max_Over = 1
+        if Temp_Min_today <15:
+            Temp_Min_Under = 0        
+
+        Fault_Massage = ["Max Cell Volt Operating Higher than Recommended","Min Cell Volt Operating Higher than Recommended","Max Temp Operating Higher than Recommended","Min Temp Operating Lower than Recommeded"]
+
+        if Cell_Max_Over == 1:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 16, value = 1)
+
+        else:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 16, value = 0)
+
+        if Cell_Min_Under == 1:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 17, value = 1)
+
+        else:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 17, value = 0)
+
+        if Temp_Max_Over == 1:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 18, value = 1)
+
+        else:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 18, value = 0)
+
+        if Temp_Min_Under == 1:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 19, value = 1)
+
+        else:
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = 19, value = 0)
+
+
+    # Define the directory where you want to save the files
+    
+    # folder_path = os.path.join(os.path.expanduser('~'), 'Documents', f'PackStat_Check')
+
+    # # If the directory does not exist, create it
+    # if not os.path.exists(folder_path):
+    #     os.makedirs(folder_path)
+
+#     base_filename = f'{modified_date_save}_PackStat_MSF{ferry_ide}.xlsx'
+#     counter = 0
+#     while os.path.exists( base_filename):
+#         counter += 1
+#         base_filename = f'{modified_date_save}_PackStat_MSF{ferry_ide}_{counter}.xlsx'
+#     # Save the wordbook2 to a file
+#     del workbook['Sheet']
+#     workbook.save( base_filename)
+
+#     print(f'Saved as: {base_filename}')
+# ferris = Get_ferry_id()
+# for i in ferris:
+#     OfflineCheck(i)
+
+
+def ProcessRange(ferries):
+    ferry_ided = ferries
+    sampling = '30s'
+
+
+    fields_MaxTemp = []
+    fields_MinTemp = []
+    fields_max = []
+    fields_min = []
+
+
+
+    date_str = str(desired_time1)
+    date = date_str.replace("22:00:00+07:00", "")
+    date = str(date)
+    modified_string = date.replace("-", "/")
+
+    modified_date_save1 = date.replace("-", "")
+    modified_date_save = modified_date_save1.replace(" ", "")
+    hex_values = []
+
+    workbook = openpyxl.Workbook()
+    sheet_Process = workbook.create_sheet(title = f'MaxMins')
+    workbook2 = openpyxl.Workbook()
+    sheet_Process_Vdiff = workbook2.create_sheet(title = f'MaxMins')
+    sheet_PackStat_Sum = workbook2.create_sheet(title=f'PackFault')
+    headers2 = [
+        "Date","Start Time","Stop Time","MSF","Pack No.","Cell_V_Diff_Time","MaxCellV","MinCellV","Cell_V_Diff"
+
+    ]   
+    headers = [
+        "Date","Start Time","Stop Time","MSF","Pack No.","MinCellV","MaxCellV","MaxTemp","MinTemp""Max_Cell_Diff","Time_C_Diff"
+
+    ]  
+
+    for index, header in enumerate(headers, start=1):
+            cell = sheet_Process.cell(row=1, column=index, value=header)
+    for index, header in enumerate(headers2, start=1):
+            cell = sheet_Process_Vdiff.cell(row=1, column=index, value=header)
+    for num in range(1, 27):
+        hex_value = hex(num)[2:].upper()  # Convert integer to hexadecimal and remove the '0x' prefix
+        hex_values.append(hex_value)
+        # print(hex_value)  
+        fields = []
+    for hex_val in hex_values:
+        hex_val_int = int(hex_val, 16)
+        if hex_val_int <= 0xF:
+            field = f"0x180b000{hex_val.lower()}_S{hex_val}_MaxTemp"
+            fields_MaxTemp.append(field)  
+            field_max = f"0x180c000{hex_val.lower()}_S{hex_val}_MaxCell_Voltage"
+            fields_max.append(field_max)
+        else :
+            field = f"0x180b00{hex_val.lower()}_S{hex_val}_MaxTemp"
+            fields_MaxTemp.append(field)  
+            field_max = f"0x180c00{hex_val.lower()}_S{hex_val}_MaxCell_Voltage"
+            fields_max.append(field_max) 
+
+    for hex_val in hex_values:
+        hex_val_int = int(hex_val, 16)
+        if hex_val_int <= 0xF:
+            field = f"0x180b000{hex_val.lower()}_S{hex_val}_MinTemp"
+            fields_MinTemp.append(field)  
+            field_min = f"0x180c000{hex_val.lower()}_S{hex_val}_MinCell_Voltage"
+            fields_min.append(field_min)            
+        else :
+            field = f"0x180b00{hex_val.lower()}_S{hex_val}_MinTemp"
+            fields_MinTemp.append(field)  
+            field_min = f"0x180c00{hex_val.lower()}_S{hex_val}_MinCell_Voltage"
+            fields_min.append(field_min)   
+    # print(fields_max)
+
+    for i in range(26):
+        
+        def Thread1():
+            global result_MaxTemp # Access the global variables
+            query2 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_MaxTemp[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: true)'
+            
+
+
+            # print(query2) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MaxTemp = query_api.query(org=org, query=query2)
+            # print("processing")
+            results_MaxTemps = []
+
+            for table in result_MaxTemp:
+                for record in table.records:
+                    results_MaxTemps.append((record.get_field(), record.get_value()))
+            
+            global_result2 = result_MaxTemp
+        def Thread2():
+            global result_MinTemp  # Access the global variables
+
+
+            query3 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_MinTemp[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+
+
+            # print(query3) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MinTemp = query_api.query(org=org, query=query3)
+            # print("processing")
+            results_MinTemps = []
+            for table in result_MinTemp:
+                for record in table.records:
+                    results_MinTemps.append((record.get_field(), record.get_value()))
+            
+            
+            global_result3 = result_MinTemp
+        def Thread3():
+            global result_MaxCell
+
+            query4 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_max[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+
+
+            # print(query4) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MaxCell = query_api.query(org=org, query=query4)
+            # print("processing")
+            results_MaxCells = []
+            for table in result_MaxCell:
+                for record in table.records:
+                    results_MaxCells.append((record.get_field(), record.get_value()))
+            result_maxs = results_MaxCells
+            # print(results_MaxCells)
+        def Thread4():
+            global result_MinCell
+            query5 = f' from(bucket:"DataLogger")\
+            |> range(start:{start_t}, stop:{end_t})\
+            |> filter(fn:(r) => r._measurement == "sbcu")\
+            |> filter(fn:(r) => r._field == "{fields_min[i]}" )\
+            |> filter(fn:(r) => r.ferry_id == "{ferry_ided}" )\
+            |> aggregateWindow(every: {sampling}, fn: last, createEmpty: false)'
+
+            # print(query5) 
+            client = InfluxDBClient(url="https://datalogger-influxdb.minesmartferry.com", token=token)
+            query_api = client.query_api()
+            # Write a query and execute it
+
+            result_MinCell = query_api.query(org=org, query=query5)
+            # print("processing")
+            results_MinCells = []
+            for table in result_MinCell:
+                for record in table.records:
+                    results_MinCells.append((record.get_field(), record.get_value()))
+        threading_Timer_s = time.time()
+        thread1 = threading.Thread(target=Thread1)
+        thread2 = threading.Thread(target=Thread2)
+        thread3 = threading.Thread(target=Thread3)
+        thread4 = threading.Thread(target=Thread4)
+
+        # print(results3)
+
+
+        # Start the threads
+        thread1.start()
+        thread2.start()
+        thread3.start()
+        thread4.start()
+        # Wait for both threads to finish
+        thread1.join()
+        thread2.join()
+        thread3.join()
+        thread4.join()
+
+
+        threading_Timer_e = time.time()
+        execution_time_thread = threading_Timer_e - threading_Timer_s
+        print(f"Process_Data took {execution_time_thread:.6f} seconds to execute.")
+
+        Value_maxtemp = []
+        Value_mintemp = []
+        Value_maxV = []
+        Value_minV = []
+        timestamps = []
+        for table in result_MaxTemp:
+            for record in table.records:
+                timestamp = record.get_time()
+                converted_time1 = timestamp.astimezone(target_time_zone).replace(tzinfo=None)
+                timestamps.append(converted_time1)
+                field = record.get_field()
+                value = record.get_value()
+                Value_maxtemp.append(value)
+
+        for table in result_MinTemp:
+            for record in table.records:
+                value = record.get_value()
+                Value_mintemp.append(value)
+
+        for table in result_MaxCell:
+            for record in table.records:
+                value = record.get_value()/1000
+                Value_maxV.append(value)
+
+        for table in result_MinCell:
+            for record in table.records:
+                value = record.get_value()/1000
+                Value_minV.append(value)
+
+
+        if Value_maxtemp != []:
+            MaxTemp = max(Value_maxtemp)
+        else:
+            MaxTemp = 0
+        if  Value_mintemp != []:    
+            MinTemp = min(Value_mintemp)
+        else:
+            MinTemp = 0
+        if  Value_maxV != []:
+            MaxVolt = max(Value_maxV)
+        else:
+            MaxVolt = 0
+        if  Value_minV != []:
+            MinVolt = min(Value_minV)
+        else:
+            MinVolt = 0
+
+        Value_CellDiff = []
+        PValue = 0
+        if Value_maxV != []:
+            for k,maxV in enumerate(Value_maxV ):
+                Value = maxV - Value_minV[k]
+                Value_CellDiff.append(Value)
+                if Value >  PValue:
+                    PValue = Value
+                    timy = k
+        if timestamps != []:
+            timmy = timestamps[timy]
+            timmy_max = Value_maxV[timy]
+            timmy_min = Value_minV[timy]
+        else:
+            timmy = 0
+            timmy_max =0
+            timmy_min = 0  
+        if Value_CellDiff != []:
+            Cell_Diff = max(Value_CellDiff)
+        else:
+            Cell_Diff = 0
+        
+        cell = sheet_Process.cell(row=i + 2, column = 4, value = ferries)
+        cell = sheet_Process.cell(row=i + 2, column = 5, value = i+1)
+        cell = sheet_Process.cell(row=i + 2, column = 1, value = modified_string)
+        cell = sheet_Process.cell(row=i + 2, column=2, value= "5:00:00")
+        cell = sheet_Process.cell(row=i + 2, column=3, value="22:00:00")  
+        cell = sheet_Process.cell(row=i + 2, column=6, value=MinVolt)  
+        cell = sheet_Process.cell(row=i + 2, column=7, value=MaxVolt)  
+        cell = sheet_Process.cell(row=i + 2, column=8, value=MaxTemp)  
+        cell = sheet_Process.cell(row=i + 2, column=9, value=MinTemp) 
+        
+
+
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column = 4, value = ferries)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column = 5, value = i+1)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column = 1, value = modified_string)
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column=2, value= "5:00:00")
+        cell = sheet_Process_Vdiff.cell(row=i + 2, column=3, value="22:00:00") 
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=7, value=timmy_max)  
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=8, value=timmy_min)  
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=6, value=timmy)  
+        cell = sheet_Process_Vdiff.cell(row=i+2, column=9, value=Cell_Diff) 
+    # Define the directory where you want to save the files
+
+    OfflineCheck(ferries,sheet_PackStat_Sum)
+
+    base_filename = f'{modified_date_save}_MSF{ferry_ided}_Usage.xlsx'
+    counter = 0
+    while os.path.exists( base_filename):
+        counter += 1
+        base_filename = f'{modified_date_save}_MSF{ferry_ided}_Usage_{counter}.xlsx'
+    # Save the wordbook2 to a file
+    del workbook['Sheet']
+    workbook.save( base_filename)
+    print(f'Saved as: {base_filename}')
+    base_filename2 = f'{modified_date_save}_MSF{ferry_ided}_Diagnose.xlsx'
+    counter = 0
+    while os.path.exists( base_filename2):
+        counter += 1
+        base_filename2 = f'{modified_date_save}_MSF{ferry_ided}_Diagnose_{counter}.xlsx'
+    # Save the wordbook2 to a file
+    del workbook2['Sheet']
+    workbook2.save(base_filename2)
+    print(f'Saved as: {base_filename2}')    
+
+ferris = Get_ferry_id()
+for i in ferris:
+    ProcessRange(i)
+
+
+# Sleep for 2 minutes (120 seconds) after the program is complete
+sleep_duration = 120  # 2 minutes
+end_time = time.time() + sleep_duration
+
+while time.time() < end_time:
+    time.sleep(1)  # Sleep for 1 second
