@@ -3219,7 +3219,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
 
                 MinCell_V.append(value)
 
-        # Cell_Max_V_today = 0
+        # Cell_Max_V_today = 0s
         # Cell_Min_V_today = 0
         # Temp_Max_today = 0
         # Temp_Min_today = 0
