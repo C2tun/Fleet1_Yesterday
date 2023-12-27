@@ -4384,6 +4384,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
                 cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[5])
             elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 0 and Temp_Max_p == 0 and Temp_Min_p == 0 and Fuse_DC == 0 and Volt_Diff_p == 1:
                 cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[6])
+                
             else:
                 cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[7])
 
@@ -4482,11 +4483,11 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             if Cell_Max_V_today > 4.12 :
                 Cell_Max_Over = 1 
         else :           
-            if Cell_Max_V_today > 4.16 :
+            if Cell_Max_V_today > 4.16 and Cell_Max_V_today < 4.9:
                 Cell_Max_Over = 1
-        if Cell_Min_V_today < 3.4 :
+        if Cell_Min_V_today < 3.4  and Cell_Min_V_today  > 0.5 or Cell_Min_V_today < 0:
             Cell_Min_Under = 1
-        if Temp_Max_today > 40 :
+        if Temp_Max_today > 40 : 
             Temp_Max_Over = 1
         if Temp_Min_today <15:
             Temp_Min_Under = 0        
@@ -4540,7 +4541,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             cell = sheet_PackStat_Sum.cell(row=num+1, column = 19, value = 0)
 
 
-        cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Falut_Message_LvL1)
+        # cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Falut_Message_LvL1)
 
 
     # Define the directory where you want to save the files
