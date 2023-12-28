@@ -43,15 +43,9 @@ local_tz = pytz.timezone('Asia/Bangkok')  # Replace with your actual time zone
 # Get the current date and time in the local time zone
 current_datetime = datetime.now(local_tz)
 
-# Take user input for the number of days to subtract
-try:
-    days_to_subtract = int(input("Enter the number of days to subtract: "))
-except ValueError:
-    print("Invalid input. Please enter a valid number.")
-    exit()
 
 # Calculate yesterday's date and time
-yesterday_datetime = current_datetime - timedelta(days=days_to_subtract )
+yesterday_datetime = current_datetime - timedelta(days=1)
 
 # Set the desired time for yesterday (22:00:00.000 in local time)
 desired_time1 = yesterday_datetime.replace(hour=22, minute=0, second=0, microsecond=0)
@@ -4487,7 +4481,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
                 Cell_Max_Over = 1
         if Cell_Min_V_today < 3.4  and Cell_Min_V_today  > 0.5 or Cell_Min_V_today < 0:
             Cell_Min_Under = 1
-        if Temp_Max_today > 40 : 
+        if Temp_Max_today >= 40 : 
             Temp_Max_Over = 1
         if Temp_Min_today <15:
             Temp_Min_Under = 0        
@@ -4526,7 +4520,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             cell = sheet_PackStat_Sum.cell(row=num+1, column = 18, value = 1)
             cell = sheet_PackStat_Sum.cell(row=num+1, column=6, value=1)
             Falut_Message_LvL1 = Falut_Message_LvL1+" " + "Max_T_LvL 1"
-            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_maxV_Col, value = Temp_Max_today)
+            cell = sheet_PackStat_Sum.cell(row=num+1, column = Value_maxtemp_Col, value = Temp_Max_today)
 
         else:
             cell = sheet_PackStat_Sum.cell(row=num+1, column = 18, value = 0)
