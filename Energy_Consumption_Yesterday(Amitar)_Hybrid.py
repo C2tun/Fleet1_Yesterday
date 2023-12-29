@@ -1177,11 +1177,11 @@ def show_result_window(result,result1,the_loop,app,total_DC,total_C,column,soop,
             file_path = os.path.join(os.path.expanduser('~'), 'Documents','Ferry_Battery_Pack_Type', 'Ferry_Bat_Pack_List.xlsx')
 
             # Load the workbook
-            workbook = openpyxl.load_workbook(file_path)
+            workbook_hybrid = openpyxl.load_workbook(file_path)
 
             # Access the 'msf17' worksheet
-            worksheet = workbook['MSF17']
-            Bat_Type = worksheet.cell(row=app+2, column=2).value  # Assuming it's a single column
+            worksheet_hybrid = workbook_hybrid['MSF17']
+            Bat_Type = worksheet_hybrid.cell(row=app+2, column=2).value  # Assuming it's a single column
 
             if Bat_Type == "NH04":
                 def CCha():
@@ -4345,7 +4345,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             Temp_Min_p = 0 
             Volt_Diff_p = 0
             Fuse_DC = 0
-
+            
             Total_Cell_V = Value_maxV + Value_minV
             if Total_Cell_V > 4.9 and Total_Cell_V <= 5.1:
                 BCU_con_p = 1
@@ -4366,6 +4366,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             Fault_Massage = ["BCU_Connector_Problem","MaxCellV_Over","MinCellV_Under","MaxTemp_Over","MinTemp_Under","Fuse Disconnected","Volt Diff(Cause Undetected)","Lost_Data"]
             if BCU_con_p == 1:
                 cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[0])
+                
             elif BCU_con_p == 0 and Cell_Max_p == 1:
                 cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Fault_Massage[1])
             elif BCU_con_p == 0 and Cell_Max_p == 0 and Cell_Min_p == 1:
@@ -4535,7 +4536,7 @@ def OfflineCheck(ferry_ided,sheet_PackStat_Sum):
             cell = sheet_PackStat_Sum.cell(row=num+1, column = 19, value = 0)
 
 
-        # cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Falut_Message_LvL1)
+        cell = sheet_PackStat_Sum.cell(row=num+1, column = 7, value = Falut_Message_LvL1)
 
 
     # Define the directory where you want to save the files
